@@ -1,0 +1,21 @@
+﻿@inherits UmbracoViewPage<Umbraco.Cms.Core.Models.Blocks.BlockGridItem<ContentPicker>>
+
+@{
+	var content = Model.Content.RelatedContent;
+	if (content == null)
+	{
+		return;
+	}
+
+	var title = content.Name;
+	var url = content.Url();
+}
+
+<div class="card">
+	<div class="card-title">
+		<span>@title</span>
+	</div>
+	<div>
+		<a href="@url" class="btn btn-primary">Read more</a>
+	</div>
+</div>

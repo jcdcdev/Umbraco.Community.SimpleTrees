@@ -1,0 +1,69 @@
+name: 📤 Create PRs
+on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Dry run: Run the workflow without creating a Pull Request"
+        required: false
+        default: false
+        type: boolean
+  schedule:
+    - cron: '0 2 * * *'
+jobs:
+  get-branches:
+    outputs:
+      branches: ${{ steps.get-branches.outputs.branches }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Get branches
+        id: get-branches
+        shell: pwsh
+        run: |
+          $branches = git branch -r --format="%(refname:short)" | ForEach-Object { $_.Trim() -replace "^origin/", "" }
+          # filter only branches that start with dev/
+          $branches = $branches | Where-Object { $_ -match "^dev/" }
+          $branchJson = ConvertTo-Json @($branches) -Compress
+          Write-Host "branches=$branchJson"
+          echo "branches=$branchJson" >> $env:GITHUB_OUTPUT
+  create-pr:
+    needs: get-branches
+    strategy:
+      max-parallel: 1
+      matrix:
+          branch: ${{fromJson(needs.get-branches.outputs.branches)}}
+    runs-on: ubuntu-latest
+    env:
+      DRY_RUN: ${{ contains(github.event.inputs.dry-run, 'true') }}
+    steps:
+      - name: Set Variables
+        run: |
+          TARGET=$(echo ${{ matrix.branch }} | sed 's/dev\///')
+          SOURCE=${{ matrix.branch }}
+
+          if [ -z "$TARGET" ]; then
+            echo "TARGET is empty"
+            exit 1
+          fi
+        
+          if [ -z "$SOURCE" ]; then
+            echo "SOURCE is empty"
+            exit 1
+          fi
+
+          echo "SOURCE=$SOURCE"
+          echo "TARGET=$TARGET"
+
+          echo "SOURCE=$SOURCE" >> $GITHUB_ENV
+          echo "TARGET=$TARGET" >> $GITHUB_ENV
+      - name: Create Pull Request
+        id: create-pull-request 
+        uses: jcdcdev/jcdcdev.GitHub.CreatePullRequest@main
+        with:
+          source-branch: ${{ env.SOURCE }}
+          target-branch: ${{ env.TARGET }}
+          dry-run: ${{ env.DRY_RUN }}
+          github-token: ${{ secrets.JCDC_BOT_TOKEN }}

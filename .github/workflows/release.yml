@@ -1,0 +1,31 @@
+name: 🚀 Release
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [ closed ]
+jobs:
+  release:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Build
+        id: build
+        uses: jcdcdev/jcdcdev.Umbraco.GitHub.Build@main
+        with:
+          project-name: Umbraco.Community.SimpleTrees
+          project-path: src/Umbraco.Community.SimpleTrees/Umbraco.Community.SimpleTrees.csproj
+          npm-working-dir: src/Umbraco.Community.SimpleTrees.Client
+          npm-enabled: true
+          npm-version: "22.x"
+          umbraco-version: 16
+          dotnet-version: "9"
+      - name: Release
+        uses: jcdcdev/jcdcdev.Umbraco.GitHub.Release@main
+        with:
+          artifact-name: ${{ steps.build.outputs.artifact-name }}
+          version: ${{ steps.build.outputs.version }}
+          nuget-api-key: ${{ secrets.NUGET_API_KEY }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}

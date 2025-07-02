@@ -1,0 +1,17 @@
+@inherits Umbraco.Community.SimpleTrees.Web.SimpleTreeViewPage
+
+@if (Model.IsRoot)
+{
+	<uui-box headline="NuGet Packages">
+		<div>
+			Click on an author to see their packages.
+		</div>
+	</uui-box>
+	return;
+}
+
+<uui-box headline="NuGet Owner: @Model.Unique">
+	<div>
+		Showing packages published by @Model.Unique
+	</div>
+</uui-box>

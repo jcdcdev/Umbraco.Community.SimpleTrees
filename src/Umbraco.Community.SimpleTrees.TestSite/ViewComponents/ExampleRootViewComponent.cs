@@ -8,6 +8,11 @@ public class ExampleRootViewComponent : SimpleTreeViewComponent
 {
     public override IViewComponentResult Invoke(SimpleTreeViewModel model)
     {
-        return Content($"Hello {model.Unique} {model.EntityType} {DateTime.UtcNow:HH:mm:ss}");
+        return Content($"""
+                        <uui-box headline="This is my custom tree item">
+                        Hello {model.Unique} {model.EntityType} {DateTime.UtcNow:HH:mm:ss}
+                        </uui-box>
+                        """
+        );
     }
 }

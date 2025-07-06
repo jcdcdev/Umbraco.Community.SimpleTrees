@@ -7,8 +7,8 @@
 
 	<ItemGroup>
 		<PackageReference Include="NuGet.Protocol" Version="6.14.0" />
-		<PackageReference Include="Umbraco.Cms" Version="16.0.0"/>
-		<PackageReference Include="uSync" Version="16.0.0"/>
+		<PackageReference Include="Umbraco.Cms" Version="15.4.3" />
+		<PackageReference Include="uSync" Version="15.1.9" />
 	</ItemGroup>
 
 	<ItemGroup>

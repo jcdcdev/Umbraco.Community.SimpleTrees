@@ -20,7 +20,7 @@ jobs:
           npm-working-dir: src/Umbraco.Community.SimpleTrees.Client
           npm-enabled: true
           npm-version: "22.x"
-          umbraco-version: 16
+          umbraco-version: 15
           dotnet-version: "9"
       - name: Release
         uses: jcdcdev/jcdcdev.Umbraco.GitHub.Release@main

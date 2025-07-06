@@ -13,6 +13,6 @@ jobs:
           project-path: src/Umbraco.Community.SimpleTrees/Umbraco.Community.SimpleTrees.csproj
           npm-working-dir: src/Umbraco.Community.SimpleTrees.Client
           npm-enabled: true
-          umbraco-version: 16
+          umbraco-version: 15
           dotnet-version: "9"
           npm-version: "22.x"

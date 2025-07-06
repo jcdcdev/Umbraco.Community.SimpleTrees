@@ -10,7 +10,7 @@ import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
 import {SimpleTreesTreeServerDataSource} from "../tree/simple-trees.server-data-source.ts";
 import {UmbApi} from "@umbraco-cms/backoffice/extension-api";
 import {SIMPLE_TREES_TREE_STORE_CONTEXT} from "../tree/simple-trees.tree-store.ts";
-import {tryExecute} from "@umbraco-cms/backoffice/resources";
+import {tryExecuteAndNotify} from "@umbraco-cms/backoffice/resources";
 import {SimpleTreesService} from "../api";
 
 export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTreeItemModel, SimpleTreesTreeRootModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> implements UmbApi {
@@ -58,7 +58,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 				entityType: entityType,
 			}
 		};
-		return await tryExecute(this._host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeRender(options));
+		return await tryExecuteAndNotify(this._host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeRender(options));
 	}
 }
 

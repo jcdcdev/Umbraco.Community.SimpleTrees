@@ -33,8 +33,7 @@ export class SimpleTreesWorkspaceElement extends UmbElementMixin(LitElement) {
 			if (response.error) {
 				console.error(response.error);
 			} else {
-
-				this.content = response.data?.body;
+				this.content = response.data?.data.body;
 			}
 		});
 	}

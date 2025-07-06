@@ -1,0 +1,19 @@
+@inherits Umbraco.Community.SimpleTrees.Web.SimpleTreeViewPage
+
+<uui-box headline="This is a custom tree item">
+	<div>
+		<table>
+			<thead>
+			<tr>
+				<th>Entity Type</th>
+				<th>Unique</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr>
+				<td>@Model.EntityType</td>
+				<td>@Model.Unique</td>
+			</tr>
+		</table>
+	</div>
+</uui-box>

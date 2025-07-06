@@ -30,7 +30,7 @@ jobs:
     needs: get-refs
     env:
       DRY_RUN: ${{ github.event.inputs.dry-run }}
-      PROJECT_NAME: jcdcdev.Umbraco.RelationsManager
+      PROJECT_NAME: Umbraco.Community.SimpleTrees
       README_FILEPATH: ./.github/README.md
       NUGET_README_FILEPATH: ./docs/README_nuget.md
     strategy:

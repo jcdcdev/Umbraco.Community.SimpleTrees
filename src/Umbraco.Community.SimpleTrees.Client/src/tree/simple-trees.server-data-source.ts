@@ -7,7 +7,6 @@ import {
 	SimpleTreesRootItemsRequestArgs,
 	SimpleTreesTreeItemModel
 } from "./types.ts";
-import {UmbDataSourceResponse} from "@umbraco-cms/backoffice/repository";
 import {SimpleTreeItem} from "../api";
 
 export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase<SimpleTreeItem, SimpleTreesTreeItemModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> {
@@ -16,13 +15,22 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 
 	constructor(host: UmbControllerHost) {
 		const getRootItems = async (args: SimpleTreesRootItemsRequestArgs) => {
-			return await this.resource?.getRoot(args)!;
+			const results = await this.resource?.getRoot(args)!;
+			return {
+				total: results.data?.data.total || 0,
+				items: results.data?.data.items || []
+			}
+
 		};
 
 		const getChildrenOf = async (args: SimpleTreesChildrenOfRequestArgs) => {
 			// @ts-ignore
 			args.treeAlias = this._host?._treeAlias;
-			return await this.resource?.getChildren(args)!;
+			const results = await this.resource?.getChildren(args)!;
+			return {
+				total: results.data?.data.total || 0,
+				items: results.data?.data.items || []
+			}
 		};
 
 		const mapper = (item: SimpleTreeItem): SimpleTreesTreeItemModel => {
@@ -41,7 +49,7 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 			};
 		};
 
-		function getAncestorsOf(args: SimpleTreesAncestorsOfRequestArgs): Promise<UmbDataSourceResponse<Array<SimpleTreeItem>>> {
+		function getAncestorsOf(args: SimpleTreesAncestorsOfRequestArgs) : Promise<SimpleTreeItem[]> {
 			console.log('getAncestorsOf', args);
 			throw new Error('Method not implemented.');
 		}

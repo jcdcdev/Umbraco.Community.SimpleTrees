@@ -9,7 +9,7 @@ const SIMPLE_TREES_MANAGER_CONTEXT_TOKEN = 'SimpleTrees.Workspace';
 const EDIT_SIMPLE_TREES_WORKSPACE_PATH_PATTERN = new UmbPathPattern('/edit/:id');
 
 export class SimpleTreesWorkspaceContext
-	extends UmbContextBase
+	extends UmbContextBase<SimpleTreesWorkspaceContext>
 	implements UmbWorkspaceContext, UmbRoutableWorkspaceContext {
 	readonly routes: UmbWorkspaceRouteManager;
 

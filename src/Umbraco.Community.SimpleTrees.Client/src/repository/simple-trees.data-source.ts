@@ -1,7 +1,7 @@
-import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
-import {tryExecuteAndNotify} from "@umbraco-cms/backoffice/resources";
-import {SimpleTreesService} from "../api";
-import {SimpleTreesChildrenOfRequestArgs, SimpleTreesRootItemsRequestArgs} from "../tree/types.ts";
+import { UmbControllerHost } from "@umbraco-cms/backoffice/controller-api";
+import { tryExecuteAndNotify } from "@umbraco-cms/backoffice/resources";
+import { SimpleTrees } from "../api";
+import { SimpleTreesChildrenOfRequestArgs, SimpleTreesRootItemsRequestArgs } from "../tree/types.ts";
 
 export class SimpleTreesDataSource {
 
@@ -21,7 +21,7 @@ export class SimpleTreesDataSource {
 				treeAlias: args.treeAlias
 			}
 		}
-		return await tryExecuteAndNotify(this.#host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeRoot(options));
+		return await tryExecuteAndNotify(this.#host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeRoot(options));
 	}
 
 	async getChildren(args: SimpleTreesChildrenOfRequestArgs) {
@@ -40,6 +40,6 @@ export class SimpleTreesDataSource {
 			}
 		}
 
-		return await tryExecuteAndNotify(this.#host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeItems(options));
+		return await tryExecuteAndNotify(this.#host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeItems(options));
 	}
 }

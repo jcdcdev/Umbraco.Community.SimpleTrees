@@ -1,8 +1,8 @@
-import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
-import {UmbDataSourceResponse} from "@umbraco-cms/backoffice/repository";
-import {tryExecute} from "@umbraco-cms/backoffice/resources";
-import {GetUmbracoSimpleTreesApiV1TreeRootResponse, SimpleTreesService} from "../api";
-import {SimpleTreesChildrenOfRequestArgs, SimpleTreesRootItemsRequestArgs} from "../tree/types.ts";
+import { UmbControllerHost } from "@umbraco-cms/backoffice/controller-api";
+import { UmbDataSourceResponse } from "@umbraco-cms/backoffice/repository";
+import { tryExecute } from "@umbraco-cms/backoffice/resources";
+import { GetUmbracoSimpleTreesApiV1TreeRootResponse, SimpleTrees } from "../api";
+import { SimpleTreesChildrenOfRequestArgs, SimpleTreesRootItemsRequestArgs } from "../tree/types.ts";
 
 export class SimpleTreesDataSource {
 
@@ -22,14 +22,14 @@ export class SimpleTreesDataSource {
 				treeAlias: args.treeAlias
 			}
 		}
-		return await tryExecute(this.#host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeRoot(options));
+		return await tryExecute(this.#host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeRoot(options));
 	}
-	
+
 	async getChildren(args: SimpleTreesChildrenOfRequestArgs): Promise<UmbDataSourceResponse<GetUmbracoSimpleTreesApiV1TreeRootResponse>> {
 		if (!args.parent.unique) {
 			return await this.getRoot(args);
 		}
-		
+
 		const options = {
 			query: {
 				treeAlias: args.treeAlias,
@@ -40,7 +40,7 @@ export class SimpleTreesDataSource {
 				foldersOnly: args.foldersOnly,
 			}
 		}
-		
-		return await tryExecute(this.#host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeItems(options));
+
+		return await tryExecute(this.#host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeItems(options));
 	}
 }

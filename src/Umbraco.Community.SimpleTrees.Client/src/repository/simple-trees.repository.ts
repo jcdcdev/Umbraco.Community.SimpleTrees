@@ -1,4 +1,4 @@
-﻿import {UmbTreeRepositoryBase} from "@umbraco-cms/backoffice/tree";
+﻿import { UmbTreeRepositoryBase } from "@umbraco-cms/backoffice/tree";
 import {
 	SimpleTreesChildrenOfRequestArgs,
 	SimpleTreesRootItemsRequestArgs,
@@ -6,12 +6,12 @@ import {
 	SimpleTreesTreeItemModel,
 	SimpleTreesTreeRootModel
 } from "../tree/types.ts";
-import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
-import {SimpleTreesTreeServerDataSource} from "../tree/simple-trees.server-data-source.ts";
-import {UmbApi} from "@umbraco-cms/backoffice/extension-api";
-import {SIMPLE_TREES_TREE_STORE_CONTEXT} from "../tree/simple-trees.tree-store.ts";
-import {tryExecute} from "@umbraco-cms/backoffice/resources";
-import {SimpleTreesService} from "../api";
+import { UmbControllerHost } from "@umbraco-cms/backoffice/controller-api";
+import { SimpleTreesTreeServerDataSource } from "../tree/simple-trees.server-data-source.ts";
+import { UmbApi } from "@umbraco-cms/backoffice/extension-api";
+import { SIMPLE_TREES_TREE_STORE_CONTEXT } from "../tree/simple-trees.tree-store.ts";
+import { tryExecute } from "@umbraco-cms/backoffice/resources";
+import { SimpleTrees } from "../api";
 
 export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTreeItemModel, SimpleTreesTreeRootModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> implements UmbApi {
 	_treeAlias?: string;
@@ -37,7 +37,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 		const options: SimpleTreesRootItemsRequestArgs = {
 			treeAlias: this._treeAlias,
 		};
-		const {data: treeRootData} = await this._treeSource.getRootItems(options);
+		const { data: treeRootData } = await this._treeSource.getRootItems(options);
 		const hasChildren = treeRootData ? treeRootData.total > 0 : false;
 
 		const data: SimpleTreesTreeRootModel = {
@@ -48,7 +48,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 			isFolder: true,
 		};
 
-		return {data};
+		return { data };
 	}
 
 	async render(unique: string, entityType: string) {
@@ -58,7 +58,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 				entityType: entityType,
 			}
 		};
-		return await tryExecute(this._host, SimpleTreesService.getUmbracoSimpleTreesApiV1TreeRender(options));
+		return await tryExecute(this._host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeRender(options));
 	}
 }
 

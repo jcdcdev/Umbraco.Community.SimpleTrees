@@ -3,7 +3,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
-namespace Umbraco.Community.SimpleTrees;
+namespace Umbraco.Community.SimpleTrees.Core.Composing;
 
 public class ConfigApiSwaggerGenOptions : IConfigureOptions<SwaggerGenOptions>
 {

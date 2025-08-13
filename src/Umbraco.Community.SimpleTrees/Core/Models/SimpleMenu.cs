@@ -1,6 +1,6 @@
 ﻿using jcdcdev.Umbraco.Core.Web.Models.Manifests;
 
-namespace Umbraco.Community.SimpleTrees.Models;
+namespace Umbraco.Community.SimpleTrees.Core.Models;
 
 public abstract class SimpleMenu : ISimpleMenu
 {

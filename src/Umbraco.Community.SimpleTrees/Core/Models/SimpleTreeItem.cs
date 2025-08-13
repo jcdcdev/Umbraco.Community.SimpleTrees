@@ -1,4 +1,4 @@
-﻿namespace Umbraco.Community.SimpleTrees.Models;
+﻿namespace Umbraco.Community.SimpleTrees.Core.Models;
 
 public class SimpleTreeItem(string name, string unique, string entityType, string icon) : ISimpleTreeItem
 {

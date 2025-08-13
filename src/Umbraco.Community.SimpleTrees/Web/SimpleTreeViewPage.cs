@@ -1,5 +1,4 @@
 ﻿using Umbraco.Cms.Web.Common.Views;
-using Umbraco.Community.SimpleTrees.Web.Controllers;
 using Umbraco.Community.SimpleTrees.Web.Models;
 
 namespace Umbraco.Community.SimpleTrees.Web;

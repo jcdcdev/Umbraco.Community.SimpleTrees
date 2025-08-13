@@ -1,5 +1,6 @@
 ﻿using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Composing.Collections;
+using Umbraco.Community.SimpleTrees.Core.Models;
 using Umbraco.Extensions;
 
 namespace Umbraco.Community.SimpleTrees.Core;

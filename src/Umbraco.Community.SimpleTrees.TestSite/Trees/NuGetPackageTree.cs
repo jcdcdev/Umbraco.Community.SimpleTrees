@@ -1,11 +1,12 @@
 ﻿using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Models;
 
 namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
 
-public class NuGetPackageTree : SimpleTree
+public class NuGetPackageTree(ISimpleTreeContext context) : SimpleTree(context)
 {
     private static readonly string[] Authors = ["jcdcdev", "umbraco"];
+    public override string Name => "NuGet Packages";
     public override string[] Menus => [nameof(NuGetMenu)];
 
     public override Task<PagedModel<ISimpleTreeItem>> GetTreeRootAsync(int skip, int take, bool foldersOnly)
@@ -24,8 +25,8 @@ public class NuGetPackageTree : SimpleTree
             var items = new List<ISimpleTreeItem>();
             foreach (var result in results)
             {
-                var item = CreateItem(result.Title, result.Identity.Id, parentUnique, "icon-document", hasChildren: true);
-                item.IsFolder = true;
+                var item = CreateItem(result.Title, result.Identity.Id, parentUnique, "icon-document", hasChildren: true, isFolder: true);
+                
                 items.Add(item);
             }
 
@@ -37,17 +38,13 @@ public class NuGetPackageTree : SimpleTree
         var versionItems = new List<ISimpleTreeItem>();
         foreach (var version in versions.Reverse())
         {
-            var item = CreateItem(
-                version.Identity.Version.ToString(),
-                $"{version.Identity.Id}_{version.Identity.Version}",
-                parentUnique,
-                "icon-box");
+            var name = version.Identity.Version.ToString();
+            var unique = $"{version.Identity.Id}_{version.Identity.Version}";
+            var item = CreateItem<NuGetPackageVersionEntityType>(name, unique, parentUnique);
 
             versionItems.Add(item);
         }
 
         return new PagedModel<ISimpleTreeItem>(versionItems.Count, versionItems);
     }
-
-    public override string Name => "NuGet Packages";
 }

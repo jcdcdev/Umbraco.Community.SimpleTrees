@@ -1,4 +1,4 @@
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Models;
 
 namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
 

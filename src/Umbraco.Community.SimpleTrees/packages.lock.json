@@ -4,9 +4,9 @@
     "net9.0": {
       "jcdcdev.Umbraco.Core": {
         "type": "Direct",
-        "requested": "[15.3.0, 16.0.0)",
-        "resolved": "15.3.0",
-        "contentHash": "CEWrBQUBkY8Mrbse7d7zUesGe3CK2dyICq+DpIeJKflweDfsh3WtK68GJ1C8CEr8QrSEka0Th8H/QpzT70fx5A==",
+        "requested": "[15.4.0, 16.0.0)",
+        "resolved": "15.4.0",
+        "contentHash": "Pg1HfYKtiNWZ56+V1G0PqZxfzLHyrgduzTozSR+MuZ56M1dGQdA2Mdw87nMpv2Yg/93y3HOLigpsCE0yM3AONQ==",
         "dependencies": {
           "Umbraco.Cms.Web.Common": "[15.0.0, 16.0.0)"
         }

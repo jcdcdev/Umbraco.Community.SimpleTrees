@@ -3,10 +3,19 @@ using jcdcdev.Umbraco.Core.Extensions;
 using jcdcdev.Umbraco.Core.Web.Models.Manifests;
 using Umbraco.Cms.Core.Manifest;
 using Umbraco.Cms.Infrastructure.Manifest;
+using Umbraco.Community.SimpleTrees.Core.Composing.Collections;
+using Umbraco.Community.SimpleTrees.Core.Manifest;
 
-namespace Umbraco.Community.SimpleTrees.Core;
+namespace Umbraco.Community.SimpleTrees.Core.Composing;
 
-public class PackageManifestReader(ISimpleTreeService simpleTreeService, SimpleMenuCollection simpleMenuCollection) : IPackageManifestReader
+public class PackageManifestReader(
+    ISimpleTreeService simpleTreeService,
+    SimpleEntityTypeCollection simpleEntityTypeCollection,
+    SimpleMenuCollection simpleMenuCollection,
+    SimpleEntityExecuteActionCollection entityExecuteActionCollection,
+    SimpleEntityUrlActionCollection entityUrlActionCollection
+)
+    : IPackageManifestReader
 {
     public Task<IEnumerable<PackageManifest>> ReadPackageManifestsAsync()
     {
@@ -45,7 +54,7 @@ public class PackageManifestReader(ISimpleTreeService simpleTreeService, SimpleM
             extensions.Add(menuManifest);
             extensions.Add(sidebarApp);
         }
-        
+
         var customTrees = simpleTreeService.GetAll().ToList();
         foreach (var customTree in customTrees)
         {
@@ -80,7 +89,16 @@ public class PackageManifestReader(ISimpleTreeService simpleTreeService, SimpleM
             extensions.Add(tree);
         }
 
-        var forEntityTypes = customTrees.SelectMany(t => new List<string> { t.DefaultEntityType, t.DefaultRootEntityType }).Distinct().ToList();
+        var treeEntityTypes = customTrees.SelectMany(t => new List<string> { t.DefaultEntityType, t.DefaultRootEntityType }).Distinct().ToList();
+        var customEntityTypes = simpleEntityTypeCollection
+            .Select(x => x.Alias)
+            .ToList();
+
+        var forEntityTypes = treeEntityTypes
+            .Union(customEntityTypes)
+            .Distinct()
+            .ToList();
+
         foreach (var entityType in forEntityTypes)
         {
             var workspace = new WorkspaceManifest
@@ -114,6 +132,43 @@ public class PackageManifestReader(ISimpleTreeService simpleTreeService, SimpleM
             Alias = "simple-trees.entrypoint",
             Js = "/App_Plugins/SimpleTrees/dist/index.js"
         });
+
+        foreach (var entityAction in entityExecuteActionCollection)
+        {
+            var entityActionManifest = new EntityExecuteActionManifest
+            {
+                Alias = entityAction.Alias,
+                Name = entityAction.Name,
+                Weight = entityAction.Weight + 2,
+                ForEntityTypes = entityAction.GetEntityTypes(customTrees, simpleEntityTypeCollection.ToList()).ToArray(),
+                Meta = new EntityActionManifest.EntityActionManifestMeta
+                {
+                    Icon = entityAction.Icon,
+                    Label = entityAction.Name
+                }
+            };
+
+            extensions.Add(entityActionManifest);
+        }
+
+        foreach (var entityAction in entityUrlActionCollection)
+        {
+            var entityActionManifest = new EntityUrlActionManifest
+            {
+                Alias = entityAction.Alias,
+                Name = entityAction.Name,
+                Weight = entityAction.Weight + 1,
+                ForEntityTypes = entityAction.GetEntityTypes(customTrees, simpleEntityTypeCollection.ToList()).ToArray(),
+                Meta = new EntityActionManifest.EntityActionManifestMeta
+                {
+                    Icon = entityAction.Icon,
+                    Label = entityAction.Name
+                }
+            };
+
+            extensions.Add(entityActionManifest);
+        }
+
         packageManifest.Extensions = extensions.OfType<object>().ToArray();
         return Task.FromResult<IEnumerable<PackageManifest>>([packageManifest]);
     }

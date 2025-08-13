@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.ViewModels.Pagination;
 using Umbraco.Community.SimpleTrees.Core;
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Models;
+using Umbraco.Community.SimpleTrees.Web.Models;
 
 namespace Umbraco.Community.SimpleTrees.Web.Controllers;
 
@@ -14,8 +15,8 @@ public class SimpleTreesTreeItemController(ISimpleTreeService service) : SimpleT
     [HttpGet("items")]
     [ApiExplorerSettings(GroupName = Constants.Api.GroupName)]
     [MapToApiVersion("1.0")]
-    [ProducesResponseType(typeof(PagedViewModel<ISimpleTreeItem>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<PagedViewModel<ISimpleTreeItem>>> Get(
+    [ProducesResponseType(typeof(PagedViewModel<SimpleTreeItemResponse>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<PagedViewModel<SimpleTreeItemResponse>>> Get(
         string treeAlias,
         string entityType,
         string parentUnique,
@@ -24,7 +25,7 @@ public class SimpleTreesTreeItemController(ISimpleTreeService service) : SimpleT
         bool foldersOnly = false)
     {
         var result = await Service.GetTreeChildrenAsync(treeAlias, entityType, parentUnique, skip, take, foldersOnly);
-        var model = PagedViewModel(result.Items, result.Total);
+        var model = MapToResponse(result);
         return Ok(model);
     }
 }

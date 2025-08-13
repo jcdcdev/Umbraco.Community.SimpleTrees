@@ -1,8 +1,7 @@
 ﻿using Umbraco.Cms.Core.Composing;
 using Umbraco.Cms.Core.DependencyInjection;
-using Umbraco.Community.SimpleTrees.Core;
 
-namespace Umbraco.Community.SimpleTrees;
+namespace Umbraco.Community.SimpleTrees.Core.Composing;
 
 public class Composer : IComposer
 {

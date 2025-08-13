@@ -1,4 +1,4 @@
-﻿import { UmbTreeRepositoryBase } from "@umbraco-cms/backoffice/tree";
+﻿import {UmbTreeRepositoryBase} from "@umbraco-cms/backoffice/tree";
 import {
 	SimpleTreesChildrenOfRequestArgs,
 	SimpleTreesRootItemsRequestArgs,
@@ -6,12 +6,12 @@ import {
 	SimpleTreesTreeItemModel,
 	SimpleTreesTreeRootModel
 } from "../tree/types.ts";
-import { UmbControllerHost } from "@umbraco-cms/backoffice/controller-api";
-import { SimpleTreesTreeServerDataSource } from "../tree/simple-trees.server-data-source.ts";
-import { UmbApi } from "@umbraco-cms/backoffice/extension-api";
-import { SIMPLE_TREES_TREE_STORE_CONTEXT } from "../tree/simple-trees.tree-store.ts";
-import { tryExecuteAndNotify } from "@umbraco-cms/backoffice/resources";
-import { SimpleTrees } from "../api";
+import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
+import {SimpleTreesTreeServerDataSource} from "../tree/simple-trees.server-data-source.ts";
+import {UmbApi} from "@umbraco-cms/backoffice/extension-api";
+import {SIMPLE_TREES_TREE_STORE_CONTEXT} from "../tree/simple-trees.tree-store.ts";
+import {tryExecuteAndNotify} from "@umbraco-cms/backoffice/resources";
+import {SimpleEntityActionRequest, SimpleTrees} from "../api";
 
 export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTreeItemModel, SimpleTreesTreeRootModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> implements UmbApi {
 	_treeAlias?: string;
@@ -37,7 +37,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 		const options: SimpleTreesRootItemsRequestArgs = {
 			treeAlias: this._treeAlias,
 		};
-		const { data: treeRootData } = await this._treeSource.getRootItems(options);
+		const {data: treeRootData} = await this._treeSource.getRootItems(options);
 		const hasChildren = treeRootData ? treeRootData.total > 0 : false;
 
 		const data: SimpleTreesTreeRootModel = {
@@ -48,7 +48,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 			isFolder: true,
 		};
 
-		return { data };
+		return {data};
 	}
 
 	async render(unique: string, entityType: string) {
@@ -59,6 +59,32 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 			}
 		};
 		return await tryExecuteAndNotify(this._host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeRender(options));
+	}
+
+	async runEntityExecuteAction(entityType: string, unique: string, actionAlias: string) {
+		const body: SimpleEntityActionRequest = {
+			entityType: entityType,
+			unique: unique,
+			actionAlias: actionAlias,
+		}
+		const options = {
+			body: body
+		};
+
+		return await tryExecuteAndNotify(this._host, SimpleTrees.postUmbracoSimpleTreesApiV1EntityActionExecute(options));
+	}
+
+	async runEntityUrlAction(entityType: string, unique: string, actionAlias: string) {
+		const body: SimpleEntityActionRequest = {
+			entityType: entityType,
+			unique: unique,
+			actionAlias: actionAlias,
+		}
+		const options = {
+			body: body
+		};
+
+		return await tryExecuteAndNotify(this._host, SimpleTrees.postUmbracoSimpleTreesApiV1EntityActionUrl(options));
 	}
 }
 

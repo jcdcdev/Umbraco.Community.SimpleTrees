@@ -1,11 +1,18 @@
 ﻿using Humanizer;
+using Microsoft.Extensions.DependencyInjection;
+using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Core.Models;
 using Umbraco.Extensions;
 
-namespace Umbraco.Community.SimpleTrees.Models;
+namespace Umbraco.Community.SimpleTrees.Core.Models;
 
-public abstract class SimpleTree : ISimpleTree
+public abstract class SimpleTree(ISimpleTreeContext context) : ISimpleTree
 {
+    [Obsolete("This method is obsolete and will be removed in future versions. Please use the constructor that accepts ISimpleTreeContext instead.")]
+    protected SimpleTree() : this(StaticServiceProvider.Instance.GetRequiredService<ISimpleTreeContext>())
+    {
+    }
+
     public virtual string Label => Name;
 
     public virtual string[] Menus => [jcdcdev.Umbraco.Core.Constants.Menus.Content];
@@ -31,6 +38,24 @@ public abstract class SimpleTree : ISimpleTree
     {
         var parent = SimpleTreeItemParent.Create(unique: parentUnique, entityType: parentEntityType ?? DefaultRootEntityType);
         return SimpleTreeItem.Create(name, unique, DefaultEntityType, icon, isFolder, hasChildren, parent);
+    }
+
+    protected ISimpleTreeItem CreateItem<T>(
+        string name,
+        string unique,
+        string parentUnique,
+        bool isFolder = false,
+        bool hasChildren = false,
+        string? parentEntityType = null) where T : ISimpleEntityType
+    {
+        var entityType = context.CustomEntityTypes.FirstOrDefault(x => x.GetType() == typeof(T));
+        if (entityType == null)
+        {
+            throw new ArgumentException($"Entity type '{typeof(T).Name}' not found in the collection.", nameof(T));
+        }
+
+        var parent = SimpleTreeItemParent.Create(unique: parentUnique, entityType: parentEntityType ?? DefaultRootEntityType);
+        return SimpleTreeItem.Create(name, unique, entityType.Alias, entityType.Icon, isFolder, hasChildren, parent);
     }
 
 

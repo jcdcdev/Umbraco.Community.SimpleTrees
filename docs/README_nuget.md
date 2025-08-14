@@ -15,6 +15,7 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 - No javascript or umbraco-package.json files required
 - Supports both Views & View Components
 - Easy to define section permissions
+- ✨ Custom Entity Actions!
 
 ## Quick Start
 
@@ -30,7 +31,7 @@ By default, this will display in the content section.
 
 ```csharp title="ExampleTree.cs"
 using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Models;
 
 namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
 

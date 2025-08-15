@@ -13,8 +13,16 @@ export class SimpleTreesContext extends UmbControllerBase {
 		this.#repository = new SimpleTreesRepository(this);
 		this.provideContext(SIMPLE_TREES_CONTEXT_TOKEN, this);
 	}
-	
-	async render(unique: string, entityType: string){
+
+	async runEntityExecuteAction(unique: string, entityType: string, actionAlias: string) {
+		return await this.#repository.runEntityExecuteAction(entityType, unique, actionAlias);
+	}
+
+	async runEntityUrlAction(unique: string, entityType: string, actionAlias: string) {
+		return await this.#repository.runEntityUrlAction(entityType, unique, actionAlias);
+	}
+
+	async render(unique: string, entityType: string) {
 		return await this.#repository.render(unique, entityType);
 	}
 }

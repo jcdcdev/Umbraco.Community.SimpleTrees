@@ -14,6 +14,12 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 - No javascript or umbraco-package.json files required
 - Supports both Views & View Components
 - Easy to define section permissions
+- ✨ Custom Entity Actions!
+
+> [!IMPORTANT]
+> Version 15 will only receive security updates and no new features.
+
+> Please review the [security policy](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees?tab=security-ov-file#supported-versions) for more information.
 
 ## Quick Start
 
@@ -29,7 +35,7 @@ By default, this will display in the content section.
 
 ```csharp title="ExampleTree.cs"
 using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Models;
 
 namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
 
@@ -81,6 +87,90 @@ public class MyTree : SimpleTree
 ```
 
 
+## Extending
+
+### Entity Actions
+
+It is possible to implement two Entity Actions
+
+#### Url Actions
+
+When clicked, the user will be taken to the specific URL.
+
+```csharp title="NuGetPackageItemEntityUrlAction.cs"
+using Umbraco.Community.SimpleTrees.Core.Models;
+
+namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
+
+public class NuGetPackageItemEntityUrlAction : SimpleEntityUrlAction
+{
+    public override string Icon => "icon-link";
+    public override string Name => "Go to Package";
+    public override Type[] ForTreeItems => [typeof(NuGetPackageTree)];
+    public override Type[] ForSimpleEntityTypes => [typeof(NuGetPackageVersionEntityType)];
+
+    public override Task<Uri> GetUrlAsync(string unique, string entityType)
+    {
+        var uri = new Uri("https://www.nuget.org/packages/" + unique);
+        return Task.FromResult(uri);
+    }
+}
+```
+
+#### Execute Actions
+
+When clicked, you custom logic will be executed. You can also return a helpful response to the user.
+
+```csharp title="NuGetPackageItemEntityExecuteAction"
+using System.Net.Http.Headers;
+using Umbraco.Community.SimpleTrees.Core.Models;
+using Umbraco.Community.SimpleTrees.Web.Models;
+
+namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
+
+public class NuGetPackageItemEntityExecuteAction : SimpleEntityExecuteAction
+{
+    private readonly HttpClient _client;
+
+    public NuGetPackageItemEntityExecuteAction(HttpClient client)
+    {
+        var url = "https://functions.marketplace.umbraco.com/api/";
+        client.BaseAddress = new Uri(url);
+        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Umbraco.Community.SimpleTrees.TestSite", "1.0"));
+        _client = client;
+    }
+
+    public override string Icon => "icon-refresh";
+    public override string Name => "Sync Package";
+    public override Type[] ForTreeItems => [typeof(NuGetPackageTree)];
+
+    public override async Task<SimpleEntityActionExecuteResponse> ExecuteAsync(string unique, string entityType)
+    {
+        try
+        {
+            var split = unique.Split('_');
+            var packageId = split[0];
+            var model = new MarketplaceRequest
+            {
+                PackageId = packageId,
+            };
+
+            var result = await _client.PostAsJsonAsync("InitiateSinglePackageSyncFunction", model);
+            if (!result.IsSuccessStatusCode)
+            {
+                return SimpleEntityActionExecuteResponse.Error("Failed to initiate package update", $"Status Code: {result.StatusCode}, Reason: {result.ReasonPhrase}");
+            }
+
+            var message = $"Package {packageId} update has been initiated. You can check the progress in the Umbraco Marketplace.";
+            return SimpleEntityActionExecuteResponse.Success("Package update initiated successfully", message);
+        }
+        catch (Exception ex)
+        {
+            return SimpleEntityActionExecuteResponse.Error("An error occurred while initiating the package update", ex.Message);
+        }
+    }
+}
+```
 
 ## Contributing
 

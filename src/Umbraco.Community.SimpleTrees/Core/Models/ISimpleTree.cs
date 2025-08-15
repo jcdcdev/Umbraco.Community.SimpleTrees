@@ -1,6 +1,6 @@
 ﻿using Umbraco.Cms.Core.Models;
 
-namespace Umbraco.Community.SimpleTrees.Models;
+namespace Umbraco.Community.SimpleTrees.Core.Models;
 
 public interface ISimpleTree
 {

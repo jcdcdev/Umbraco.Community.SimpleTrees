@@ -1,9 +1,9 @@
 ﻿using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SimpleTrees.Models;
+using Umbraco.Community.SimpleTrees.Core.Models;
 
 namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
 
-public class MyTree : SimpleTree
+public class MyTree(ISimpleTreeContext context) : SimpleTree(context)
 {
     public override Task<PagedModel<ISimpleTreeItem>> GetTreeRootAsync(int skip, int take, bool foldersOnly)
     {

@@ -17,48 +17,28 @@
 	}
 
 	var package = versions.First();
-	if (version.IsNullOrWhiteSpace())
+	if (!version.IsNullOrWhiteSpace())
 	{
-		<uui-box headline="@package.Title">
-			<img src="@package.IconUrl" alt="Icon for @package.Title" style="max-width: 100px; max-height: 100px;"/>
-			<div>
-				@package.Description
-			</div>
-			<uui-button href="@package.ProjectUrl" target="_blank">
-				Project URL
-			</uui-button>
-			@if (package.ReadmeUrl != null)
-			{
-				<uui-button href="@package.ReadmeUrl" target="_blank">
-					Readme URL
-				</uui-button>
-			}
-			<div>
-				@versions.Count versions
-			</div>
-		</uui-box>
 		return;
 	}
-
-	package = versions.First(x => x.Identity.Version.OriginalVersion?.InvariantStartsWith(version) ?? false);
 }
 
-<uui-box headline="@package.Title - @package.Identity.Version" style="margin-bottom: var(--uui-size-space-6);">
-	<div>Published @package.Published</div>
-</uui-box>
-<uui-box headline="Package Dependencies">
-
-	@foreach (var set in package.DependencySets)
+<uui-box headline="@package.Title">
+	<img src="@package.IconUrl" alt="Icon for @package.Title" style="max-width: 100px; max-height: 100px;"/>
+	<div>
+		@package.Description
+	</div>
+	<uui-button href="@package.ProjectUrl" target="_blank">
+		Project URL
+	</uui-button>
+	@if (package.ReadmeUrl != null)
 	{
-		<div>
-			<h5>Target Framework: @set.TargetFramework</h5>
-			@foreach (var dependency in set.Packages)
-			{
-				<div>
-					@dependency.Id @dependency.VersionRange
-				</div>
-			}
-		</div>
+		<uui-button href="@package.ReadmeUrl" target="_blank">
+			Readme URL
+		</uui-button>
 	}
+	<div>
+		@versions.Count versions
+	</div>
 </uui-box>
 

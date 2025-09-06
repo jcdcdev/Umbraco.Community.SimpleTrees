@@ -14,9 +14,9 @@ export type NotificationHeaderModel = {
     type: EventMessageTypeModel;
 };
 
-export type PagedISimpleTreeItemModel = {
+export type PagedSimpleTreeItemResponseModel = {
     total: number;
-    items: Array<SimpleTreeItem>;
+    items: Array<SimpleTreeItemResponse>;
 };
 
 export type SimpleEntityActionExecuteResponse = {
@@ -35,19 +35,19 @@ export type SimpleEntityActionUrlResponse = {
     url: string;
 };
 
-export type SimpleTreeItem = {
-    hasChildren: boolean;
+export type SimpleTreeItemParentResponse = {
+    unique: string;
+    entityType?: string | null;
+};
+
+export type SimpleTreeItemResponse = {
     name: string;
-    isFolder: boolean;
     icon: string;
     entityType: string;
     unique: string;
-    parent?: SimpleTreeItemParent | null;
-};
-
-export type SimpleTreeItemParent = {
-    entityType: string;
-    unique: string;
+    hasChildren: boolean;
+    isFolder: boolean;
+    parent?: SimpleTreeItemParentResponse | null;
 };
 
 export type SimpleTreeRenderModel = {
@@ -104,7 +104,7 @@ export type GetUmbracoSimpleTreesApiV1TreeItemsResponses = {
     /**
      * OK
      */
-    200: PagedISimpleTreeItemModel;
+    200: PagedSimpleTreeItemResponseModel;
 };
 
 export type GetUmbracoSimpleTreesApiV1TreeItemsResponse = GetUmbracoSimpleTreesApiV1TreeItemsResponses[keyof GetUmbracoSimpleTreesApiV1TreeItemsResponses];
@@ -144,7 +144,7 @@ export type GetUmbracoSimpleTreesApiV1TreeRootResponses = {
     /**
      * OK
      */
-    200: PagedISimpleTreeItemModel;
+    200: PagedSimpleTreeItemResponseModel;
 };
 
 export type GetUmbracoSimpleTreesApiV1TreeRootResponse = GetUmbracoSimpleTreesApiV1TreeRootResponses[keyof GetUmbracoSimpleTreesApiV1TreeRootResponses];

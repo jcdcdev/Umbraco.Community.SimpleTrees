@@ -1,16 +1,16 @@
-﻿import {UmbTreeServerDataSourceBase} from "@umbraco-cms/backoffice/tree";
-import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
-import {SimpleTreesDataSource} from "../repository/simple-trees.data-source.ts";
+﻿import { UmbTreeServerDataSourceBase } from "@umbraco-cms/backoffice/tree";
+import { UmbControllerHost } from "@umbraco-cms/backoffice/controller-api";
+import { SimpleTreesDataSource } from "../repository/simple-trees.data-source.ts";
 import {
 	SimpleTreesAncestorsOfRequestArgs,
 	SimpleTreesChildrenOfRequestArgs,
 	SimpleTreesRootItemsRequestArgs,
 	SimpleTreesTreeItemModel
 } from "./types.ts";
-import {UmbDataSourceResponse} from "@umbraco-cms/backoffice/repository";
-import {SimpleTreeItem} from "../api";
+import { UmbDataSourceResponse } from "@umbraco-cms/backoffice/repository";
+import { SimpleTreeItemResponse } from "../api";
 
-export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase<SimpleTreeItem, SimpleTreesTreeItemModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> {
+export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase<SimpleTreeItemResponse, SimpleTreesTreeItemModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> {
 	resource?: SimpleTreesDataSource;
 	_host?: UmbControllerHost;
 
@@ -25,7 +25,7 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 			return await this.resource?.getChildren(args)!;
 		};
 
-		const mapper = (item: SimpleTreeItem): SimpleTreesTreeItemModel => {
+		const mapper = (item: SimpleTreeItemResponse): SimpleTreesTreeItemModel => {
 			return {
 				unique: item.unique,
 				// @ts-ignore
@@ -41,7 +41,7 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 			};
 		};
 
-		function getAncestorsOf(args: SimpleTreesAncestorsOfRequestArgs): Promise<UmbDataSourceResponse<Array<SimpleTreeItem>>> {
+		function getAncestorsOf(args: SimpleTreesAncestorsOfRequestArgs): Promise<UmbDataSourceResponse<Array<SimpleTreeItemResponse>>> {
 			console.log('getAncestorsOf', args);
 			throw new Error('Method not implemented.');
 		}

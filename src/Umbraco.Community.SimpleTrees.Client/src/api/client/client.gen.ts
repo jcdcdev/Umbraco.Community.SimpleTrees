@@ -60,12 +60,12 @@ export const createClient = (config: Config = {}): Client => {
       await opts.requestValidator(opts);
     }
 
-    if (opts.body !== undefined && opts.bodySerializer) {
+    if (opts.body && opts.bodySerializer) {
       opts.serializedBody = opts.bodySerializer(opts.body);
     }
 
     // remove Content-Type header if body is empty to avoid sending invalid requests
-    if (opts.body === undefined || opts.serializedBody === '') {
+    if (opts.serializedBody === undefined || opts.serializedBody === '') {
       opts.headers.delete('Content-Type');
     }
 
@@ -80,7 +80,7 @@ export const createClient = (config: Config = {}): Client => {
     const requestInit: ReqInit = {
       redirect: 'follow',
       ...opts,
-      body: getValidRequestBody(opts),
+      body: opts.serializedBody,
     };
 
     let request = new Request(url, requestInit);
@@ -108,40 +108,22 @@ export const createClient = (config: Config = {}): Client => {
     };
 
     if (response.ok) {
-      const parseAs =
-        (opts.parseAs === 'auto'
-          ? getParseAs(response.headers.get('Content-Type'))
-          : opts.parseAs) ?? 'json';
-
       if (
         response.status === 204 ||
         response.headers.get('Content-Length') === '0'
       ) {
-        let emptyData: any;
-        switch (parseAs) {
-          case 'arrayBuffer':
-          case 'blob':
-          case 'text':
-            emptyData = await response[parseAs]();
-            break;
-          case 'formData':
-            emptyData = new FormData();
-            break;
-          case 'stream':
-            emptyData = response.body;
-            break;
-          case 'json':
-          default:
-            emptyData = {};
-            break;
-        }
         return opts.responseStyle === 'data'
-          ? emptyData
+          ? {}
           : {
-              data: emptyData,
+              data: {},
               ...result,
             };
       }
+
+      const parseAs =
+        (opts.parseAs === 'auto'
+          ? getParseAs(response.headers.get('Content-Type'))
+          : opts.parseAs) ?? 'json';
 
       let data: any;
       switch (parseAs) {
@@ -212,26 +194,6 @@ export const createClient = (config: Config = {}): Client => {
         };
   };
 
-  function getValidRequestBody(options: ResolvedRequestOptions) {
-    const hasBody = options.body !== undefined;
-    const isSerializedBody = hasBody && options.bodySerializer;
-
-    if (isSerializedBody) {
-      const hasSerializedBody =
-        options.serializedBody !== undefined && options.serializedBody !== '';
-
-      return hasSerializedBody ? options.serializedBody : null;
-    }
-
-    // plain/text body
-    if (hasBody) {
-      return options.body;
-    }
-
-    // no body was provided
-    return undefined;
-  }
-
   const makeMethodFn =
     (method: Uppercase<HttpMethod>) => (options: RequestOptions) =>
       request({ ...options, method });
@@ -244,15 +206,6 @@ export const createClient = (config: Config = {}): Client => {
         body: opts.body as BodyInit | null | undefined,
         headers: opts.headers as unknown as Record<string, string>,
         method,
-        onRequest: async (url, init) => {
-          let request = new Request(url, init);
-          for (const fn of interceptors.request._fns) {
-            if (fn) {
-              request = await fn(request, opts);
-            }
-          }
-          return request;
-        },
         url,
       });
     };

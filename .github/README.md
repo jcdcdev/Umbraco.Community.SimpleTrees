@@ -16,6 +16,9 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 - Easy to define section permissions
 - ✨ Custom Entity Actions!
 
+> [!NOTE]
+> Version 17 is not released yet.
+
 ## Quick Start
 
 ### Install Package

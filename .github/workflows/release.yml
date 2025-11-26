@@ -13,17 +13,15 @@ jobs:
     steps:
       - name: Build
         id: build
-        uses: jcdcdev/jcdcdev.Umbraco.GitHub.Build@main
+        uses: jcdcdev/jcdcdev.Umbraco.Github.Build@v17
         with:
           project-name: Umbraco.Community.SimpleTrees
           project-path: src/Umbraco.Community.SimpleTrees/Umbraco.Community.SimpleTrees.csproj
           npm-working-dir: src/Umbraco.Community.SimpleTrees.Client
           npm-enabled: true
           npm-version: "22.x"
-          umbraco-version: 17
-          dotnet-version: "10"
       - name: Release
-        uses: jcdcdev/jcdcdev.Umbraco.GitHub.Release@main
+        uses: jcdcdev/jcdcdev.Umbraco.GitHub.Release@v17
         with:
           artifact-name: ${{ steps.build.outputs.artifact-name }}
           version: ${{ steps.build.outputs.version }}

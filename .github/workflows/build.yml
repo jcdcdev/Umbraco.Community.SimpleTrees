@@ -7,12 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build
-        uses: jcdcdev/jcdcdev.Umbraco.Github.Build@main
+        uses: jcdcdev/jcdcdev.Umbraco.Github.Build@v17
         with:
           project-name: Umbraco.Community.SimpleTrees
           project-path: src/Umbraco.Community.SimpleTrees/Umbraco.Community.SimpleTrees.csproj
           npm-working-dir: src/Umbraco.Community.SimpleTrees.Client
           npm-enabled: true
-          umbraco-version: 17
-          dotnet-version: "10"
           npm-version: "22.x"

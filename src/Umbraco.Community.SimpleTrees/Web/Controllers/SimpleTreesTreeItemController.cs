@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.ViewModels.Pagination;
 using Umbraco.Community.SimpleTrees.Core;
-using Umbraco.Community.SimpleTrees.Core.Models;
 using Umbraco.Community.SimpleTrees.Web.Models;
 
 namespace Umbraco.Community.SimpleTrees.Web.Controllers;

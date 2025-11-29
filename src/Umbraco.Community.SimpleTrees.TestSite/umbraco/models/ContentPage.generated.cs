@@ -14,7 +14,6 @@ using Umbraco.Cms.Core.Models.PublishedContent;
 using Umbraco.Cms.Core.PublishedCache;
 using Umbraco.Cms.Infrastructure.ModelsBuilder;
 using Umbraco.Cms.Core;
-using Umbraco.Community.SimpleTrees.TestSite.umbraco.models;
 using Umbraco.Extensions;
 
 namespace Umbraco.Cms.Web.Common.PublishedModels

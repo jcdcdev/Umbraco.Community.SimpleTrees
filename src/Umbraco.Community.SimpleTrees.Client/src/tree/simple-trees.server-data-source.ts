@@ -12,7 +12,7 @@ import { SimpleTreeItemResponse } from "../api";
 
 export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase<SimpleTreeItemResponse, SimpleTreesTreeItemModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> {
 	resource?: SimpleTreesDataSource;
-	_host?: UmbControllerHost;
+	_host: UmbControllerHost;
 
 	constructor(host: UmbControllerHost) {
 		const getRootItems = async (args: SimpleTreesRootItemsRequestArgs) => {
@@ -21,7 +21,7 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 
 		const getChildrenOf = async (args: SimpleTreesChildrenOfRequestArgs) => {
 			// @ts-ignore
-			args.treeAlias = this._host?._treeAlias;
+			args.treeAlias = this._host._treeAlias;
 			return await this.resource?.getChildren(args)!;
 		};
 

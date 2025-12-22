@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Build
         id: build
-        uses: jcdcdev/jcdcdev.Umbraco.Github.Build@v17
+        uses: jcdcdev/jcdcdev.Umbraco.GitHub.Build@v17
         with:
           project-name: Umbraco.Community.SimpleTrees
           project-path: src/Umbraco.Community.SimpleTrees/Umbraco.Community.SimpleTrees.csproj

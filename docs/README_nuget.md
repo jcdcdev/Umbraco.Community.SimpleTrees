@@ -19,12 +19,6 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 
 ## Quick Start
 
-### Install Package
-
-```csharp
-dotnet add package Umbraco.Community.SimpleTrees 
-```
-
 ### Register Tree
 
 By default, this will display in the content section.
@@ -80,6 +74,14 @@ public class MyTree : SimpleTree
 		</table>
 	</div>
 </uui-box>
+```
+
+## Configuration
+
+### Install Package
+
+```csharp
+dotnet add package Umbraco.Community.SimpleTrees 
 ```
 
 ## Contributing

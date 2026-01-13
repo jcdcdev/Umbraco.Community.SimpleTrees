@@ -16,6 +16,14 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 - Easy to define section permissions
 - ✨ Custom Entity Actions!
 
+## Installation
+
+### Install Package
+
+```powershell
+dotnet add package Umbraco.Community.SimpleTrees 
+```
+
 ## Quick Start
 
 ### Register Tree
@@ -73,14 +81,6 @@ public class MyTree : SimpleTree
 		</table>
 	</div>
 </uui-box>
-```
-
-## Configuration
-
-### Install Package
-
-```csharp
-dotnet add package Umbraco.Community.SimpleTrees 
 ```
 
 ## Extending

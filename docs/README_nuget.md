@@ -1,6 +1,6 @@
 # Umbraco.Community.SimpleTrees
 
-[![Documentation](https://img.shields.io/badge/Docs-Quickstart-394933?style=flat&logo=github)](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees#quick-start)
+[![Documentation](https://img.shields.io/badge/Docs-Quickstart-394933?style=flat&logo=github)](https://docs.jcdc.dev/umbraco-community-simpletrees/latest)
 [![Umbraco Marketplace](https://img.shields.io/badge/Umbraco-Marketplace-%233544B1?style=flat&logo=umbraco)](https://marketplace.umbraco.com/package/Umbraco.Community.SimpleTrees)
 [![License](https://img.shields.io/github/license/jcdcdev/Umbraco.Community.SimpleTrees?color=8AB803&label=License&logo=github)](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees?tab=MIT-1-ov-file)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Umbraco.Community.SimpleTrees?color=cc9900&label=Downloads&logo=nuget)](https://www.nuget.org/packages/Umbraco.Community.SimpleTrees)

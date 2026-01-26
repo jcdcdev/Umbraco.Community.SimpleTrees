@@ -1,4 +1,4 @@
-﻿import {UmbTreeRepositoryBase} from "@umbraco-cms/backoffice/tree";
+﻿import {UmbTreeItemModel, UmbTreeRepository} from "@umbraco-cms/backoffice/tree";
 import {
 	SimpleTreesChildrenOfRequestArgs,
 	SimpleTreesRootItemsRequestArgs,
@@ -9,17 +9,20 @@ import {
 import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
 import {SimpleTreesTreeServerDataSource} from "../tree/simple-trees.server-data-source.ts";
 import {UmbApi} from "@umbraco-cms/backoffice/extension-api";
-import {SIMPLE_TREES_TREE_STORE_CONTEXT} from "../tree/simple-trees.tree-store.ts";
 import {tryExecuteAndNotify} from "@umbraco-cms/backoffice/resources";
 import {SimpleEntityActionRequest, SimpleTrees} from "../api";
+import { UmbRepositoryBase, UmbRepositoryResponseWithAsObservable, UmbTargetPagedModel} from "@umbraco-cms/backoffice/repository";
 
-export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTreeItemModel, SimpleTreesTreeRootModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> implements UmbApi {
+export class SimpleTreesRepository
+	extends UmbRepositoryBase
+	implements UmbTreeRepository<SimpleTreesTreeItemModel, SimpleTreesTreeRootModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs>, UmbApi {
 	_treeAlias?: string;
 	_treeName: string = '';
 	_rootEntityType: string = '';
+	_dataSource : SimpleTreesTreeServerDataSource
 
 	constructor(host: UmbControllerHost) {
-		super(host, SimpleTreesTreeServerDataSource, SIMPLE_TREES_TREE_STORE_CONTEXT);
+		super(host);
 		// @ts-ignore
 		const _manifest = host.manifest;
 		if (_manifest) {
@@ -27,6 +30,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 			this._treeName = _manifest.name;
 			this._rootEntityType = _manifest.meta.rootEntityType;
 		}
+		this._dataSource = new SimpleTreesTreeServerDataSource(host);
 	}
 
 	async requestTreeRoot() {
@@ -37,7 +41,7 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 		const options: SimpleTreesRootItemsRequestArgs = {
 			treeAlias: this._treeAlias,
 		};
-		const {data: treeRootData} = await this._treeSource.getRootItems(options);
+		const {data: treeRootData} = await this._dataSource.getRootItems(options);
 		const hasChildren = treeRootData ? treeRootData.total > 0 : false;
 
 		const data: SimpleTreesTreeRootModel = {
@@ -50,6 +54,40 @@ export class SimpleTreesRepository extends UmbTreeRepositoryBase<SimpleTreesTree
 
 		return {data};
 	}
+
+	async requestTreeRootItems(args: SimpleTreesRootItemsRequestArgs): Promise<UmbRepositoryResponseWithAsObservable<UmbTargetPagedModel<UmbTreeItemModel>, UmbTreeItemModel[]>> {
+		debugger;
+		const options : SimpleTreesRootItemsRequestArgs = {
+			...args,
+			treeAlias: this._treeAlias!,
+		};
+
+		const items = await this._dataSource.getRootItems(options)
+		return items;
+	}
+
+	async requestTreeItemsOf(args: SimpleTreesChildrenOfRequestArgs) {
+		debugger;
+		const options : SimpleTreesChildrenOfRequestArgs = {
+			...args,
+			treeAlias: this._treeAlias!,
+		};
+		
+		const items = await this._dataSource.getChildrenOf(options)
+		return items;
+	}
+
+	async requestTreeItemAncestors(args : SimpleTreesAncestorsOfRequestArgs) {
+		debugger;
+		const options : SimpleTreesAncestorsOfRequestArgs = {
+			...args,
+		};
+
+		options.treeItem.treeAlias = this._treeAlias!;
+		const items = await this._dataSource.getAncestorsOf(options)
+		return items;
+	}
+
 
 	async render(unique: string, entityType: string) {
 		const options = {

@@ -13,7 +13,7 @@
 		"lit": "^3.3.2",
 		"@umbraco-cms/backoffice": "^16.4.0",
 		"typescript": "^5.9.3",
-		"vite": "^7.2.6"
+		"vite": "^7.2.7"
 	},
 	"volta": {
 		"node": "22.12.0"

@@ -28,8 +28,8 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 				unique: item.unique,
 				entityType: item.entityType,
 				parent: {
-					unique: item.parent?.unique,
-					entityType: item.parent?.entityType
+					unique: item.parent?.unique || null,
+					entityType: item.parent?.entityType || ''
 				},
 				name: item.name,
 				hasChildren: item.hasChildren,

@@ -1,14 +1,14 @@
-﻿import { UmbTreeServerDataSourceBase } from "@umbraco-cms/backoffice/tree";
-import { UmbControllerHost } from "@umbraco-cms/backoffice/controller-api";
-import { SimpleTreesDataSource } from "../repository/simple-trees.data-source.ts";
+﻿import {UmbTreeServerDataSourceBase} from "@umbraco-cms/backoffice/tree";
+import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
+import {SimpleTreesDataSource} from "../repository/simple-trees.data-source.ts";
 import {
 	SimpleTreesAncestorsOfRequestArgs,
 	SimpleTreesChildrenOfRequestArgs,
 	SimpleTreesRootItemsRequestArgs,
 	SimpleTreesTreeItemModel
 } from "./types.ts";
-import { UmbDataSourceResponse } from "@umbraco-cms/backoffice/repository";
-import { SimpleTreeItemResponse } from "../api";
+import {UmbDataSourceResponse} from "@umbraco-cms/backoffice/repository";
+import {SimpleTreeItemResponse} from "../api";
 
 export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase<SimpleTreeItemResponse, SimpleTreesTreeItemModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> {
 	resource?: SimpleTreesDataSource;
@@ -20,20 +20,17 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 		};
 
 		const getChildrenOf = async (args: SimpleTreesChildrenOfRequestArgs) => {
-			// @ts-ignore
-			args.treeAlias = this._host._treeAlias;
 			return await this.resource?.getChildren(args)!;
 		};
 
 		const mapper = (item: SimpleTreeItemResponse): SimpleTreesTreeItemModel => {
 			return {
 				unique: item.unique,
-				// @ts-ignore
 				entityType: item.entityType,
-				// @ts-ignore
-				parent: item.parent ? {
-					unique: item.parent.unique,
-				} : undefined,
+				parent: {
+					unique: item.parent?.unique || null,
+					entityType: item.parent?.entityType || ''
+				},
 				name: item.name,
 				hasChildren: item.hasChildren,
 				isFolder: item.isFolder,

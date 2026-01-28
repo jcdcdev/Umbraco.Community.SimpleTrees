@@ -10,7 +10,6 @@ export class SimpleTreesDataSource {
 
 	constructor(host: UmbControllerHost) {
 		this.#host = host;
-
 	}
 
 	async getRoot(args: SimpleTreesRootItemsRequestArgs): Promise<UmbDataSourceResponse<GetUmbracoSimpleTreesApiV1TreeRootResponse>> {

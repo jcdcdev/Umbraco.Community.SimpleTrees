@@ -1,6 +1,7 @@
 ﻿import {UmbTreeChildrenOfRequestArgs, UmbTreeItemModel, UmbTreeRootModel, UmbTreeAncestorsOfRequestArgs} from "@umbraco-cms/backoffice/tree"
 import type {UmbTreeRootItemsRequestArgs} from "@umbraco-cms/backoffice/tree";
 import type {UmbEntityModel} from "@umbraco-cms/backoffice/entity";
+import type {UmbOffsetPaginationRequestModel, UmbTargetPaginationRequestModel} from "@umbraco-cms/backoffice/utils";
 
 export interface SimpleTreesTreeItemModel extends UmbTreeItemModel {
 	entityType: string;
@@ -15,6 +16,7 @@ export interface SimpleTreesRootItemsRequestArgs extends UmbTreeRootItemsRequest
 	foldersOnly?: boolean;
 	skip?: number;
 	take?: number;
+	paging?: UmbOffsetPaginationRequestModel | UmbTargetPaginationRequestModel;
 }
 
 export interface SimpleTreesChildrenOfRequestArgs extends UmbTreeChildrenOfRequestArgs {
@@ -23,6 +25,7 @@ export interface SimpleTreesChildrenOfRequestArgs extends UmbTreeChildrenOfReque
 	skip?: number;
 	take?: number;
 	treeAlias: string;
+	paging?: UmbOffsetPaginationRequestModel | UmbTargetPaginationRequestModel;
 }
 
 export interface SimpleTreesAncestorsOfRequestArgs extends UmbTreeAncestorsOfRequestArgs {

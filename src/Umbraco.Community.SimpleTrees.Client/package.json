@@ -10,7 +10,7 @@
 		"generate": "openapi-ts"
 	},
 	"devDependencies": {
-		"lit": "^3.3.1",
+		"lit": "^3.3.2",
 		"@umbraco-cms/backoffice": "^17.0.2",
 		"typescript": "^5.9.3",
 		"vite": "^7.3.0"

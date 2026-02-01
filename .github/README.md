@@ -1,5 +1,6 @@
-# Umbraco.Community.SimpleTrees
+# Simple Trees
 
+[![Documentation](https://img.shields.io/badge/Documentation-123?color=394933&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNiIgaGVpZ2h0PSIxNiIgZmlsbD0iY3VycmVudENvbG9yIiBjb2xvcj0id2hpdGUiIGNsYXNzPSJiaSBiaS1ib29rIiB2aWV3Qm94PSIwIDAgMTYgMTYiPgogIDxwYXRoIGQ9Ik0xIDIuODI4Yy44ODUtLjM3IDIuMTU0LS43NjkgMy4zODgtLjg5MyAxLjMzLS4xMzQgMi40NTguMDYzIDMuMTEyLjc1MnY5Ljc0NmMtLjkzNS0uNTMtMi4xMi0uNjAzLTMuMjEzLS40OTMtMS4xOC4xMi0yLjM3LjQ2MS0zLjI4Ny44MTF6bTcuNS0uMTQxYy42NTQtLjY4OSAxLjc4Mi0uODg2IDMuMTEyLS43NTIgMS4yMzQuMTI0IDIuNTAzLjUyMyAzLjM4OC44OTN2OS45MjNjLS45MTgtLjM1LTIuMTA3LS42OTItMy4yODctLjgxLTEuMDk0LS4xMTEtMi4yNzgtLjAzOS0zLjIxMy40OTJ6TTggMS43ODNDNy4wMTUuOTM2IDUuNTg3LjgxIDQuMjg3Ljk0Yy0xLjUxNC4xNTMtMy4wNDIuNjcyLTMuOTk0IDEuMTA1QS41LjUgMCAwIDAgMCAyLjV2MTFhLjUuNSAwIDAgMCAuNzA3LjQ1NWMuODgyLS40IDIuMzAzLS44ODEgMy42OC0xLjAyIDEuNDA5LS4xNDIgMi41OS4wODcgMy4yMjMuODc3YS41LjUgMCAwIDAgLjc4IDBjLjYzMy0uNzkgMS44MTQtMS4wMTkgMy4yMjItLjg3NyAxLjM3OC4xMzkgMi44LjYyIDMuNjgxIDEuMDJBLjUuNSAwIDAgMCAxNiAxMy41di0xMWEuNS41IDAgMCAwLS4yOTMtLjQ1NWMtLjk1Mi0uNDMzLTIuNDgtLjk1Mi0zLjk5NC0xLjEwNUMxMC40MTMuODA5IDguOTg1LjkzNiA4IDEuNzgzIi8+Cjwvc3ZnPg==)](https://docs.jcdc.dev/umbraco-community-simpletrees/latest)
 [![Umbraco Marketplace](https://img.shields.io/badge/Umbraco%20Marketplace-%23f5c1bc?logo=umbraco&logoColor=162335)](https://marketplace.umbraco.com/package/Umbraco.Community.SimpleTrees)
 [![GitHub](https://img.shields.io/badge/GitHub-1?logo=github&color=232925)](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees)
 [![NuGet Downloads](https://img.shields.io/nuget/dt/Umbraco.Community.SimpleTrees?labelColor=4536d3&color=4536d3&label=NuGet&logo=nuget)](https://www.nuget.org/packages/Umbraco.Community.SimpleTrees)
@@ -24,155 +25,21 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 dotnet add package Umbraco.Community.SimpleTrees 
 ```
 
-## Quick Start
+## Security
 
-### Register Tree
+> [!NOTE]
+> This project takes security and support seriously.
+> Please visit the [Security](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees?tab=security-ov-file) page for more information.
 
-By default, this will display in the content section.
 
-```csharp title="ExampleTree.cs"
-using Umbraco.Cms.Core.Models;
-using Umbraco.Community.SimpleTrees.Core.Models;
-
-namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
-
-public class MyTree : SimpleTree
-{
-    public override Task<PagedModel<ISimpleTreeItem>> GetTreeRootAsync(int skip, int take, bool foldersOnly)
-    {
-        var data = new List<ISimpleTreeItem>
-        {
-            CreateRootItem("James", Guid.NewGuid().ToString(), "icon-user"),
-            CreateRootItem("Tim", Guid.NewGuid().ToString(), "icon-user"),
-        };
-
-        return Task.FromResult(new PagedModel<ISimpleTreeItem>(data.Count, data));
-    }
-
-    public override Task<PagedModel<ISimpleTreeItem>> GetTreeChildrenAsync(string entityType, string parentUnique, int skip, int take, bool foldersOnly) => Task.FromResult(EmptyResult());
-
-    public override string Name => "My Tree";
-}
-```
-
-### Create Views
-
-- Your views **must** go in `/Views/Trees`
-- You views **must** be the name of your tree entities 
-    - For example: `MyTree.cs` => `/Views/Trees/MyItem.cshtml` &  `/Views/Trees/MyRoot.cshtml`
-
-```csharp title="Views/Trees/MyItem.cshtml"
-@inherits Umbraco.Community.SimpleTrees.Web.SimpleTreeViewPage
-
-<uui-box headline="This is a custom tree item">
-	<div>
-		<table>
-			<thead>
-			<tr>
-				<th>Entity Type</th>
-				<th>Unique</th>
-			</tr>
-			</thead>
-			<tbody>
-			<tr>
-				<td>@Model.EntityType</td>
-				<td>@Model.Unique</td>
-			</tr>
-		</table>
-	</div>
-</uui-box>
-```
-
-## Extending
-
-### Entity Actions
-
-It is possible to implement two Entity Actions
-
-#### Url Actions
-
-When clicked, the user will be taken to the specific URL.
-
-```csharp title="NuGetPackageItemEntityUrlAction.cs"
-using Umbraco.Community.SimpleTrees.Core.Models;
-
-namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
-
-public class NuGetPackageItemEntityUrlAction : SimpleEntityUrlAction
-{
-    public override string Icon => "icon-link";
-    public override string Name => "Go to Package";
-    public override Type[] ForTreeItems => [typeof(NuGetPackageTree)];
-    public override Type[] ForSimpleEntityTypes => [typeof(NuGetPackageVersionEntityType)];
-
-    public override Task<Uri> GetUrlAsync(string unique, string entityType)
-    {
-        var uri = new Uri("https://www.nuget.org/packages/" + unique);
-        return Task.FromResult(uri);
-    }
-}
-```
-
-#### Execute Actions
-
-When clicked, you custom logic will be executed. You can also return a helpful response to the user.
-
-```csharp title="NuGetPackageItemEntityExecuteAction"
-using System.Net.Http.Headers;
-using Umbraco.Community.SimpleTrees.Core.Models;
-using Umbraco.Community.SimpleTrees.Web.Models;
-
-namespace Umbraco.Community.SimpleTrees.TestSite.Trees;
-
-public class NuGetPackageItemEntityExecuteAction : SimpleEntityExecuteAction
-{
-    private readonly HttpClient _client;
-
-    public NuGetPackageItemEntityExecuteAction(HttpClient client)
-    {
-        var url = "https://functions.marketplace.umbraco.com/api/";
-        client.BaseAddress = new Uri(url);
-        client.DefaultRequestHeaders.UserAgent.Add(new ProductInfoHeaderValue("Umbraco.Community.SimpleTrees.TestSite", "1.0"));
-        _client = client;
-    }
-
-    public override string Icon => "icon-refresh";
-    public override string Name => "Sync Package";
-    public override Type[] ForTreeItems => [typeof(NuGetPackageTree)];
-
-    public override async Task<SimpleEntityActionExecuteResponse> ExecuteAsync(string unique, string entityType)
-    {
-        try
-        {
-            var split = unique.Split('_');
-            var packageId = split[0];
-            var model = new MarketplaceRequest
-            {
-                PackageId = packageId,
-            };
-
-            var result = await _client.PostAsJsonAsync("InitiateSinglePackageSyncFunction", model);
-            if (!result.IsSuccessStatusCode)
-            {
-                return SimpleEntityActionExecuteResponse.Error("Failed to initiate package update", $"Status Code: {result.StatusCode}, Reason: {result.ReasonPhrase}");
-            }
-
-            var message = $"Package {packageId} update has been initiated. You can check the progress in the Umbraco Marketplace.";
-            return SimpleEntityActionExecuteResponse.Success("Package update initiated successfully", message);
-        }
-        catch (Exception ex)
-        {
-            return SimpleEntityActionExecuteResponse.Error("An error occurred while initiating the package update", ex.Message);
-        }
-    }
-}
-```
 
 ## Contributing
 
 Contributions to this package are most welcome! Please visit the [Contributing](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees/contribute) page.
 
-## Acknowledgements (Thanks)
+## Acknowledgements
+
+Thank you to the following projects and individuals for their contributions. High five, you rock! 🤘🦄
 
 - LottePitcher - [opinionated-package-starter](https://github.com/LottePitcher/opinionated-package-starter)
 

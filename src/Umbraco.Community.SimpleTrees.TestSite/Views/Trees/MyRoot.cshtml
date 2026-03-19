@@ -16,4 +16,28 @@
 			</tr>
 		</table>
 	</div>
+
+	<p>You can even include scripts!</p>
+	<button id="clicky">Count 0</button>
+	<div id="clock">
+	</div>
 </uui-box>
+
+<script>
+    let count = 0;
+    document.getElementById("clicky").addEventListener("click", function (e) {
+        count++;
+        e.target.textContent = `Count ${count}`;
+    });
+
+    const clock = document.getElementById("clock");
+    updateClock = () => {
+        const now = new Date();
+        clock.textContent = `The time is ${now.toLocaleTimeString()}`;
+    }
+    setInterval(() => {
+        updateClock();
+    }, 1000);
+
+    updateClock();
+</script>

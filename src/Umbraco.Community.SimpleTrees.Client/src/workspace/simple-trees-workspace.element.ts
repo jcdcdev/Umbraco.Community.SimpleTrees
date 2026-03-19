@@ -4,6 +4,7 @@ import {UmbElementMixin} from "@umbraco-cms/backoffice/element-api";
 import {unsafeHTML} from '@umbraco-cms/backoffice/external/lit';
 import {UUITextStyles} from '@umbraco-cms/backoffice/external/uui';
 import {SIMPLE_TREES_CONTEXT_TOKEN} from "../context/simple-trees.context.ts";
+import {HtmlScriptContentRuntime} from "../utils/html-script-content-runtime.ts";
 
 @customElement('simple-tree-item-workspace')
 export class SimpleTreesWorkspaceElement extends UmbElementMixin(LitElement) {
@@ -19,6 +20,8 @@ export class SimpleTreesWorkspaceElement extends UmbElementMixin(LitElement) {
 
 	@property({type: String})
 	entityType: string = '';
+
+	private readonly runtime = new HtmlScriptContentRuntime();
 
 	constructor() {
 		super();
@@ -39,16 +42,21 @@ export class SimpleTreesWorkspaceElement extends UmbElementMixin(LitElement) {
 		});
 	}
 
+	protected updated(): void {
+		void this.runtime.executeScripts(this.content, this.renderRoot);
+	}
+	
 	render() {
 		if (this.loading) {
 			return nothing;
 		}
 
+		const body = this.runtime.extractHtml(this.content);
 		return html`
 			<div class="uui-text">
-				${this.content ? unsafeHTML(this.content) : nothing}
+				${body ? unsafeHTML(body) : nothing}
 			</div>
-		`
+		`;
 	}
 
 	static styles = [

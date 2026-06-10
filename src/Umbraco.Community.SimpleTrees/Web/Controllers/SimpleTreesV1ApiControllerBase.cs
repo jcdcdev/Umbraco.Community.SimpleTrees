@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Asp.Versioning;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Cms.Api.Common.Attributes;
 using Umbraco.Cms.Api.Common.Filters;
@@ -12,13 +13,14 @@ using Umbraco.Community.SimpleTrees.Web.Models;
 namespace Umbraco.Community.SimpleTrees.Web.Controllers;
 
 [SimpleTreesVersionedRoute("")]
-[MapToApi(Constants.Api.ApiName)]
 [JsonOptionsName(Cms.Core.Constants.JsonOptionsNames.BackOffice)]
+[MapToApi(Constants.Api.ApiName)]
 [ApiController]
-[ApiExplorerSettings(GroupName = Constants.Api.GroupName)]
 [Authorize(Policy = AuthorizationPolicies.BackOfficeAccess)]
+[ApiExplorerSettings(GroupName = Constants.Api.GroupName)]
+[ApiVersion("1.0")]
 [Produces("application/json")]
-public class SimpleTreesApiControllerBase(ISimpleTreeService service) : ControllerBase
+public class SimpleTreesV1ApiControllerBase(ISimpleTreeService service) : Controller
 {
     protected readonly ISimpleTreeService Service = service;
 

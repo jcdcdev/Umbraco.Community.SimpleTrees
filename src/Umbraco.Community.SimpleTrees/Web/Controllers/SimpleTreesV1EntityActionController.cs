@@ -1,5 +1,4 @@
-﻿using Asp.Versioning;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Umbraco.Community.SimpleTrees.Core;
 using Umbraco.Community.SimpleTrees.Core.Composing.Collections;
@@ -7,17 +6,14 @@ using Umbraco.Community.SimpleTrees.Web.Models;
 
 namespace Umbraco.Community.SimpleTrees.Web.Controllers;
 
-[ApiVersion("1.0")]
 [SimpleTreesVersionedRoute("entity-action")]
-public class SimpleTreesEntityActionController(
+public class SimpleTreesV1EntityActionController(
     ISimpleTreeService service,
     SimpleEntityExecuteActionCollection executeActions,
     SimpleEntityUrlActionCollection urlActions)
-    : SimpleTreesApiControllerBase(service)
+    : SimpleTreesV1ApiControllerBase(service)
 {
     [HttpPost("execute")]
-    [ApiExplorerSettings(GroupName = Constants.Api.GroupName)]
-    [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(SimpleEntityActionExecuteResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<SimpleEntityActionExecuteResponse>> PostExecuteAction(SimpleEntityActionRequest request)
     {
@@ -39,8 +35,6 @@ public class SimpleTreesEntityActionController(
     }
 
     [HttpPost("url")]
-    [ApiExplorerSettings(GroupName = Constants.Api.GroupName)]
-    [MapToApiVersion("1.0")]
     [ProducesResponseType(typeof(SimpleEntityActionUrlResponse), StatusCodes.Status200OK)]
     public async Task<ActionResult<SimpleEntityActionUrlResponse>> PostUrlAction(SimpleEntityActionRequest request)
     {

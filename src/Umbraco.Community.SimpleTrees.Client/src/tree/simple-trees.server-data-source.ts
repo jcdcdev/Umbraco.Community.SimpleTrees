@@ -7,20 +7,19 @@ import {
 	SimpleTreesRootItemsRequestArgs,
 	SimpleTreesTreeItemModel
 } from "./types.ts";
-import {UmbDataSourceResponse} from "@umbraco-cms/backoffice/repository";
+import {UmbDataSourceResponse, UmbTargetPagedModel} from "@umbraco-cms/backoffice/repository";
 import {SimpleTreeItemResponse} from "../api";
 
 export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase<SimpleTreeItemResponse, SimpleTreesTreeItemModel, SimpleTreesRootItemsRequestArgs, SimpleTreesChildrenOfRequestArgs, SimpleTreesAncestorsOfRequestArgs> {
-	resource?: SimpleTreesDataSource;
-	_host: UmbControllerHost;
-
 	constructor(host: UmbControllerHost) {
+		const resource = new SimpleTreesDataSource(host);
+
 		const getRootItems = async (args: SimpleTreesRootItemsRequestArgs) => {
-			return await this.resource?.getRoot(args)!;
+			return await resource.getRoot(args);
 		};
 
-		const getChildrenOf = async (args: SimpleTreesChildrenOfRequestArgs) => {
-			return await this.resource?.getChildren(args)!;
+		const getChildrenOf = async (args: SimpleTreesChildrenOfRequestArgs): Promise<UmbDataSourceResponse<UmbTargetPagedModel<SimpleTreeItemResponse>>> => {
+			return await resource.getChildren(args);
 		};
 
 		const mapper = (item: SimpleTreeItemResponse): SimpleTreesTreeItemModel => {
@@ -49,8 +48,5 @@ export class SimpleTreesTreeServerDataSource extends UmbTreeServerDataSourceBase
 			getAncestorsOf,
 			mapper,
 		});
-
-		this._host = host;
-		this.resource = new SimpleTreesDataSource(host);
 	}
 }

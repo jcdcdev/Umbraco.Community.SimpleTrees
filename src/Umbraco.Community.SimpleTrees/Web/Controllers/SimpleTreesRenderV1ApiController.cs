@@ -1,25 +1,18 @@
 ﻿using jcdcdev.Umbraco.Core.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.Extensions.Logging;
-using Umbraco.Cms.Api.Common.Attributes;
-using Umbraco.Cms.Api.Common.Filters;
-using Umbraco.Cms.Api.Management.Filters;
-using Umbraco.Cms.Web.Common.Authorization;
+using Umbraco.Community.SimpleTrees.Core;
 using Umbraco.Community.SimpleTrees.Web.Models;
 
 namespace Umbraco.Community.SimpleTrees.Web.Controllers;
 
-[ApiExplorerSettings(GroupName = Constants.Api.GroupName)]
 [SimpleTreesVersionedRoute("tree")]
-[MapToApi(Constants.Api.ApiName)]
-[JsonOptionsName(Cms.Core.Constants.JsonOptionsNames.BackOffice)]
-[ApiController]
-[Authorize(Policy = AuthorizationPolicies.BackOfficeAccess)]
-[AppendEventMessages]
-[Produces("application/json")]
-public class SimpleTreesRenderController(ICompositeViewEngine viewEngine, ILogger<SimpleTreesRenderController> logger) : Controller
+public class SimpleTreesRenderV1ApiController(
+    ICompositeViewEngine viewEngine,
+    ILogger<SimpleTreesRenderV1ApiController> logger,
+    ISimpleTreeService service
+) : SimpleTreesV1ApiControllerBase(service)
 {
     [HttpGet("render")]
     [Produces<SimpleTreeRenderModel>]

@@ -23,14 +23,14 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Umbraco.Cms.Api.Common" Version="[17.0.0,18.0.0)" />
-		<PackageReference Include="Umbraco.Cms.Api.Management" Version="[17.0.0,18.0.0)" />
-		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[17.0.0,18.0.0)" />
-		<PackageReference Include="jcdcdev.Umbraco.Core" Version="[17.0.0,18.0.0)" />
+		<PackageReference Include="Umbraco.Cms.Api.Common" Version="[18.0.0-rc1,19.0.0)" />
+		<PackageReference Include="Umbraco.Cms.Api.Management" Version="[18.0.0-rc1,19.0.0)" />
+		<PackageReference Include="Umbraco.Cms.Web.Website" Version="[18.0.0-rc1,19.0.0)" />
+		<PackageReference Include="jcdcdev.Umbraco.Core" Version="[18.0.0-alpha.1,19.0.0)" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)' == 'Debug'">
-		<Major>17</Major>
+		<Major>18</Major>
 		<Minor>$([System.DateTime]::UtcNow.ToString(`yyyy`))</Minor>
 		<Patch>$([System.DateTime]::UtcNow.ToString(`MMdd`).TrimStart(`0`))</Patch>
 		<Suffix>-alpha-$([System.DateTime]::UtcNow.ToString(`Hmm-ss`).TrimStart(`.`))</Suffix>

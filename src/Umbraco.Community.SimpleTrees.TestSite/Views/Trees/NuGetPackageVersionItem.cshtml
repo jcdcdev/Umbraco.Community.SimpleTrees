@@ -3,7 +3,7 @@
 @{
 	var split = Model.Unique.Split('_');
 	var packageId = split[0];
-	var version = split.Length > 1 ? split[1] : null;
+	var version = split.Length > 1 ? split[1] : "unknown";
 	var service = new NuGetService();
 	var versions = (await service.GetPackageMetadata(packageId)).Reverse().ToList();
 	if (versions.Count == 0)

@@ -17,18 +17,10 @@ This packages aims to help developers quickly put together Umbraco Trees using C
 - Easy to define section permissions
 - ✨ Custom Entity Actions!
 
-> [!IMPORTANT]
-> Version 16 will only receive security updates and no new features.
+> [!WARNING]
+> Version 16 is no longer supported and is End of Life (EOL).
 
 > Please review the [security policy](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees?tab=security-ov-file#supported-versions) for more information.
-
-## Installation
-
-### Install Package
-
-```powershell
-dotnet add package Umbraco.Community.SimpleTrees 
-```
 
 ## Security
 

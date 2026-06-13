@@ -56,7 +56,6 @@ export class SimpleTreesRepository
 	}
 
 	async requestTreeRootItems(args: SimpleTreesRootItemsRequestArgs): Promise<UmbRepositoryResponseWithAsObservable<UmbTargetPagedModel<UmbTreeItemModel>, UmbTreeItemModel[]>> {
-		debugger;
 		const options : SimpleTreesRootItemsRequestArgs = {
 			...args,
 			treeAlias: this._treeAlias!,
@@ -67,7 +66,6 @@ export class SimpleTreesRepository
 	}
 
 	async requestTreeItemsOf(args: SimpleTreesChildrenOfRequestArgs) {
-		debugger;
 		const options : SimpleTreesChildrenOfRequestArgs = {
 			...args,
 			treeAlias: this._treeAlias!,
@@ -78,7 +76,6 @@ export class SimpleTreesRepository
 	}
 
 	async requestTreeItemAncestors(args : SimpleTreesAncestorsOfRequestArgs) {
-		debugger;
 		const options : SimpleTreesAncestorsOfRequestArgs = {
 			...args,
 		};

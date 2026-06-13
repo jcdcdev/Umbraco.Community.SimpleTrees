@@ -67,6 +67,8 @@ export class SimpleTreesWorkspaceElement extends UmbElementMixin(LitElement) {
 				flex-direction: column;
 				gap: var(--uui-size-4);
 				padding: var(--uui-size-layout-1);
+				height: calc(100% - 50px);
+				overflow: auto;
 			}
 
 			pre {

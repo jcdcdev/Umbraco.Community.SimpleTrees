@@ -7,13 +7,15 @@ The following table outlines the versions of the project that are currently supp
 > [!NOTE]
 > Once a version starts its security phase, it will no longer receive feature updates. Only critical bug fixes and security updates will be provided.
 
-| Package Version                                                                            | Umbraco Version | Security Phase Start | End of Life |
-| ---------------------------------------------------------------------------------- | --------------- | -------------------- | ----------- || [17.x](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees/tree/v17) | 17 | 2027-11-27 | 2028-11-27 |
+| Package Version | Umbraco Version | Security Phase Start | End of Life |
+|-----------------|-----------------|----------------------|-------------|
+| [17.x](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees/tree/v17) | 17 | 2027-11-27 | 2028-11-27 |
 
 ## Unsupported Versions
 
-| Package Version                                                               |  Umbraco Version  | End of Life |
-| ---------------------------------------------------------------------------------- | ---------------  | ----------- || [15.x](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees/tree/v15) | 15 | 2025-11-14 |
+| Package Version | Umbraco Version | End of Life |
+|-----------------|-----------------|-------------|
+| [15.x](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees/tree/v15) | 15 | 2025-11-14 |
 | [16.x](https://github.com/jcdcdev/Umbraco.Community.SimpleTrees/tree/v16) | 16 | 2026-06-12 |
 
 

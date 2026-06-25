@@ -4,17 +4,8 @@ export type ClientOptions = {
     baseUrl: 'http://localhost:54813/' | (string & {});
 };
 
-/**
- * Represents a paged collection of items with total count.
- */
 export type PagedSimpleTreeItemResponseModel = {
-    /**
-     * Gets or sets the total number of items available.
-     */
     total: number | string;
-    /**
-     * Gets or sets the items in the current page.
-     */
     items: Array<SimpleTreeItemResponse>;
 };
 
@@ -56,13 +47,7 @@ export type SimpleTreeRenderModel = {
 export type TargetPagedModelOfSimpleTreeItemResponse = {
     totalBefore: number | string;
     totalAfter: number | string;
-    /**
-     * Gets the items for the current page.
-     */
     items: Array<SimpleTreeItemResponse>;
-    /**
-     * Gets the total number of items available across all pages.
-     */
     total: number | string;
 };
 

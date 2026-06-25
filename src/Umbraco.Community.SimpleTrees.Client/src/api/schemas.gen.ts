@@ -13,18 +13,15 @@ export const PagedSimpleTreeItemResponseModelSchema = {
                 'integer',
                 'string'
             ],
-            description: 'Gets or sets the total number of items available.',
             format: 'int64'
         },
         items: {
             type: 'array',
             items: {
                 $ref: '#/components/schemas/SimpleTreeItemResponse'
-            },
-            description: 'Gets or sets the items in the current page.'
+            }
         }
-    },
-    description: 'Represents a paged collection of items with total count.'
+    }
 } as const;
 
 export const SimpleEntityActionExecuteResponseSchema = {
@@ -180,8 +177,7 @@ export const TargetPagedModelOfSimpleTreeItemResponseSchema = {
             type: 'array',
             items: {
                 $ref: '#/components/schemas/SimpleTreeItemResponse'
-            },
-            description: 'Gets the items for the current page.'
+            }
         },
         total: {
             pattern: '^-?(?:0|[1-9]\\d*)$',
@@ -189,7 +185,6 @@ export const TargetPagedModelOfSimpleTreeItemResponseSchema = {
                 'integer',
                 'string'
             ],
-            description: 'Gets the total number of items available across all pages.',
             format: 'int64'
         }
     }

@@ -1,7 +1,7 @@
 {
 	"name": "simple-trees",
 	"private": true,
-	"version": "0.0.0",
+	"version": "18.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite build --watch --emptyOutDir",
@@ -10,12 +10,12 @@
 		"generate": "openapi-ts"
 	},
 	"devDependencies": {
-		"lit": "^3.3.2",
-		"@umbraco-cms/backoffice": "^17.2.2",
-		"typescript": "^5.9.3",
-		"vite": "^7.3.1"
+		"lit": "^3.3.3",
+		"@umbraco-cms/backoffice": "^18.0.0",
+		"typescript": "^6.0.3",
+		"vite": "^8.1.0"
 	},
 	"volta": {
-		"node": "22.22.1"
+		"node": "26.3.0"
 	}
 }

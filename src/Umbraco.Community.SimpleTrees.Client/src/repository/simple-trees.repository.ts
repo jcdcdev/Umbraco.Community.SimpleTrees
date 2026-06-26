@@ -9,9 +9,9 @@ import {
 import {UmbControllerHost} from "@umbraco-cms/backoffice/controller-api";
 import {SimpleTreesTreeServerDataSource} from "../tree/simple-trees.server-data-source.ts";
 import {UmbApi} from "@umbraco-cms/backoffice/extension-api";
-import {tryExecuteAndNotify} from "@umbraco-cms/backoffice/resources";
+import {tryExecute} from "@umbraco-cms/backoffice/resources";
 import {SimpleEntityActionRequest, SimpleTrees} from "../api";
-import { UmbRepositoryBase, UmbRepositoryResponseWithAsObservable, UmbTargetPagedModel} from "@umbraco-cms/backoffice/repository";
+import {UmbRepositoryBase, UmbRepositoryResponseWithAsObservable, UmbTargetPagedModel} from "@umbraco-cms/backoffice/repository";
 
 export class SimpleTreesRepository
 	extends UmbRepositoryBase
@@ -19,7 +19,7 @@ export class SimpleTreesRepository
 	_treeAlias?: string;
 	_treeName: string = '';
 	_rootEntityType: string = '';
-	_dataSource : SimpleTreesTreeServerDataSource
+	_dataSource: SimpleTreesTreeServerDataSource
 
 	constructor(host: UmbControllerHost) {
 		super(host);
@@ -57,7 +57,7 @@ export class SimpleTreesRepository
 
 	async requestTreeRootItems(args: SimpleTreesRootItemsRequestArgs): Promise<UmbRepositoryResponseWithAsObservable<UmbTargetPagedModel<UmbTreeItemModel>, UmbTreeItemModel[]>> {
 		debugger;
-		const options : SimpleTreesRootItemsRequestArgs = {
+		const options: SimpleTreesRootItemsRequestArgs = {
 			...args,
 			treeAlias: this._treeAlias!,
 		};
@@ -68,18 +68,18 @@ export class SimpleTreesRepository
 
 	async requestTreeItemsOf(args: SimpleTreesChildrenOfRequestArgs) {
 		debugger;
-		const options : SimpleTreesChildrenOfRequestArgs = {
+		const options: SimpleTreesChildrenOfRequestArgs = {
 			...args,
 			treeAlias: this._treeAlias!,
 		};
-		
+
 		const items = await this._dataSource.getChildrenOf(options)
 		return items;
 	}
 
-	async requestTreeItemAncestors(args : SimpleTreesAncestorsOfRequestArgs) {
+	async requestTreeItemAncestors(args: SimpleTreesAncestorsOfRequestArgs) {
 		debugger;
-		const options : SimpleTreesAncestorsOfRequestArgs = {
+		const options: SimpleTreesAncestorsOfRequestArgs = {
 			...args,
 		};
 
@@ -96,7 +96,7 @@ export class SimpleTreesRepository
 				entityType: entityType,
 			}
 		};
-		return await tryExecuteAndNotify(this._host, SimpleTrees.getUmbracoSimpleTreesApiV1TreeRender(options));
+		return await tryExecute(this._host, SimpleTrees.getTreeRender(options));
 	}
 
 	async runEntityExecuteAction(entityType: string, unique: string, actionAlias: string) {
@@ -109,7 +109,7 @@ export class SimpleTreesRepository
 			body: body
 		};
 
-		return await tryExecuteAndNotify(this._host, SimpleTrees.postUmbracoSimpleTreesApiV1EntityActionExecute(options));
+		return await tryExecute(this._host, SimpleTrees.postEntityActionExecute(options));
 	}
 
 	async runEntityUrlAction(entityType: string, unique: string, actionAlias: string) {
@@ -122,7 +122,7 @@ export class SimpleTreesRepository
 			body: body
 		};
 
-		return await tryExecuteAndNotify(this._host, SimpleTrees.postUmbracoSimpleTreesApiV1EntityActionUrl(options));
+		return await tryExecute(this._host, SimpleTrees.postEntityActionUrl(options));
 	}
 }
 

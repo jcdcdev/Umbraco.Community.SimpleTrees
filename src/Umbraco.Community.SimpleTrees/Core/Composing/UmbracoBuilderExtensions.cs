@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Umbraco.Cms.Api.Common.OpenApi;
+using Umbraco.Cms.Api.Management.OpenApi;
 using Umbraco.Cms.Core.DependencyInjection;
 using Umbraco.Cms.Infrastructure.Manifest;
 using Umbraco.Community.SimpleTrees.Core.Composing.Collections;
@@ -36,8 +38,8 @@ public static class UmbracoBuilderExtensions
         foreach (var type in entityUrlActions)
         {
             builder.SimpleEntityUrlActions().Append(type);
-        }   
-        
+        }
+
         builder.SimpleEntityTypes();
         var entityTypes = builder.TypeLoader.GetTypes<ISimpleEntityType>();
         foreach (var type in entityTypes)
@@ -45,7 +47,10 @@ public static class UmbracoBuilderExtensions
             builder.SimpleEntityTypes().Append(type);
         }
 
-        builder.Services.ConfigureOptions<ConfigApiSwaggerGenOptions>();
+        builder.AddBackOfficeOpenApiDocument(Constants.Api.ApiName, document => document
+            .WithTitle(Constants.Api.GroupName)
+            .WithBackOfficeAuthentication());
+        
         builder.Services.AddSingleton<IPackageManifestReader, PackageManifestReader>();
         builder.Services.AddSingleton<ISimpleTreeService, SimpleTreeService>();
         builder.Services.AddSingleton<ISimpleTreeContext, SimpleTreeContext>();
@@ -56,5 +61,4 @@ public static class UmbracoBuilderExtensions
     private static SimpleEntityExecuteActionCollectionBuilder SimpleEntityExecuteActions(this IUmbracoBuilder builder) => builder.WithCollectionBuilder<SimpleEntityExecuteActionCollectionBuilder>();
     private static SimpleEntityUrlActionCollectionBuilder SimpleEntityUrlActions(this IUmbracoBuilder builder) => builder.WithCollectionBuilder<SimpleEntityUrlActionCollectionBuilder>();
     private static SimpleEntityTypeCollectionBuilder SimpleEntityTypes(this IUmbracoBuilder builder) => builder.WithCollectionBuilder<SimpleEntityTypeCollectionBuilder>();
-
 }

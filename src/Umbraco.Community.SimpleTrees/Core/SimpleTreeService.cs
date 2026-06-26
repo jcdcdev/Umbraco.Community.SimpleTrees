@@ -45,7 +45,62 @@ public class SimpleTreeService(SimpleTreeCollection simpleTrees) : ISimpleTreeSe
         return new PagedModel<ISimpleTreeItem>(model.Total, EnsureRootTreeItems(simpleTree, model.Items));
     }
 
-    public async Task<PagedModel<ISimpleTreeItem>> GetTreeChildrenAsync(string treeAlias, string entityType, string parentUnique, int skip, int take, bool foldersOnly)
+    public async Task<TargetPagedModel<ISimpleTreeItem>> GetTreeRootAsync(string treeAlias, string? unique, string entityType, int takeBefore, int takeAfter, bool foldersOnly)
+    {
+        var simpleTree = simpleTrees.FirstOrDefault(x => x.HasAlias(treeAlias));
+        if (simpleTree == null)
+        {
+            throw new ArgumentException($"No tree found with alias '{treeAlias}'", nameof(treeAlias));
+        }
+
+        var model = await simpleTree.GetTreeRootAsync(0, int.MaxValue, foldersOnly);
+        var index = model.Items.FindIndex(x => x.Unique == unique);
+        var items = model.Items
+            .Skip(Math.Max(0, index - takeBefore))
+            .Take(takeAfter);
+
+        return new TargetPagedModel<ISimpleTreeItem>
+        {
+            Items = items,
+            Total = model.Total,
+            TotalBefore = index,
+            TotalAfter = (int)model.Total - index - 1
+        };
+    }
+
+    public async Task<TargetPagedModel<ISimpleTreeItem>> GetPagedTargetTreeChildrenAsync(
+        string treeAlias,
+        string targetUnique,
+        string targetEntityType,
+        string entityType,
+        string parentUnique,
+        int takeBefore,
+        int takeAfter,
+        bool foldersOnly)
+    {
+        var simpleTree = simpleTrees.FirstOrDefault(x => x.HasAlias(treeAlias));
+        if (simpleTree == null)
+        {
+            throw new ArgumentException($"No tree found with alias '{treeAlias}'", nameof(treeAlias));
+        }
+
+        var model = await simpleTree.GetTreeChildrenAsync(entityType, parentUnique, 0, int.MaxValue, foldersOnly);
+        var index = model.Items.FindIndex(x => x.Unique == targetUnique && x.EntityType == targetEntityType);
+        var items = model.Items
+            .Skip(Math.Max(0, index - takeBefore))
+            .Take(takeAfter);
+
+        return new TargetPagedModel<ISimpleTreeItem>
+        {
+            Items = items,
+            Total = model.Total,
+            TotalBefore = index,
+            TotalAfter = (int)model.Total - index - 1
+        };
+    }
+
+
+    public async Task<PagedModel<ISimpleTreeItem>> GetPagedOffsetTreeChildrenAsync(string treeAlias, string entityType, string parentUnique, int skip, int take, bool foldersOnly)
     {
         var simpleTree = simpleTrees.FirstOrDefault(x => x.HasAlias(treeAlias));
         if (simpleTree == null)
@@ -59,4 +114,10 @@ public class SimpleTreeService(SimpleTreeCollection simpleTrees) : ISimpleTreeSe
 
     public IEnumerable<ISimpleTree> GetAll() => simpleTrees;
     public ISimpleTree? GetByAlias(string alias) => simpleTrees.FirstOrDefault(x => x.HasAlias(alias));
+}
+
+public class TargetPagedModel<T> : PagedModel<T>
+{
+    public int TotalBefore { get; set; }
+    public int TotalAfter { get; set; }
 }

@@ -26,17 +26,20 @@ public class NuGetPackageTree(ISimpleTreeContext context) : SimpleTree(context)
             foreach (var result in results)
             {
                 var item = CreateItem(result.Title, result.Identity.Id, parentUnique, "icon-document", hasChildren: true, isFolder: true);
-                
+
                 items.Add(item);
             }
 
             return new PagedModel<ISimpleTreeItem>(items.Count, items);
         }
 
-        var versions = await service.GetPackageMetadata(parentUnique);
+        var versions = (await service
+                .GetPackageMetadata(parentUnique))
+            .Reverse()
+            .ToList();
 
         var versionItems = new List<ISimpleTreeItem>();
-        foreach (var version in versions.Reverse())
+        foreach (var version in versions.Skip(skip).Take(take))
         {
             var name = version.Identity.Version.ToString();
             var unique = $"{version.Identity.Id}_{version.Identity.Version}";
@@ -45,6 +48,6 @@ public class NuGetPackageTree(ISimpleTreeContext context) : SimpleTree(context)
             versionItems.Add(item);
         }
 
-        return new PagedModel<ISimpleTreeItem>(versionItems.Count, versionItems);
+        return new PagedModel<ISimpleTreeItem>(versions.Count, versionItems);
     }
 }

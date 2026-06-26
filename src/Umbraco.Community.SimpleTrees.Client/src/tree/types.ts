@@ -14,16 +14,12 @@ export interface SimpleTreesTreeRootModel extends UmbTreeRootModel {
 export interface SimpleTreesRootItemsRequestArgs extends UmbTreeRootItemsRequestArgs {
 	treeAlias: string;
 	foldersOnly?: boolean;
-	skip?: number;
-	take?: number;
 	paging?: UmbOffsetPaginationRequestModel | UmbTargetPaginationRequestModel;
 }
 
 export interface SimpleTreesChildrenOfRequestArgs extends UmbTreeChildrenOfRequestArgs {
 	parent: UmbEntityModel;
 	foldersOnly?: boolean;
-	skip?: number;
-	take?: number;
 	treeAlias: string;
 	paging?: UmbOffsetPaginationRequestModel | UmbTargetPaginationRequestModel;
 }

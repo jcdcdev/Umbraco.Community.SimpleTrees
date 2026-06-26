@@ -7,9 +7,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="NuGet.Protocol" Version="7.0.1" />
-		<PackageReference Include="Umbraco.Cms" Version="17.0.0" />
-		<PackageReference Include="uSync" Version="17.0.0" />
+		<PackageReference Include="NuGet.Protocol" Version="7.6.0" />
+		<PackageReference Include="Umbraco.Cms" Version="18.0.0" />
+		<PackageReference Include="uSync" Version="18.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -20,6 +20,79 @@
 		<!-- Opt-in to app-local ICU to ensure consistent globalization APIs across different platforms -->
 		<PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
 		<RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" Condition="$(RuntimeIdentifier.StartsWith('linux')) or $(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and !$([MSBuild]::IsOSPlatform('osx')))" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\basepage.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\contentpage.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\contentpicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\home.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\markdownblock.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\umbblockgriddemoheadlineblock.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\umbblockgriddemoimageblock.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\umbblockgriddemorichtextblock.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\ContentTypes\umbblockgriddemotwocolumnlayoutblock.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Content\content-1.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Content\content-2.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Content\home.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ApprovedColor.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\BasePageGridContentBlockGrid.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\CheckboxList.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ContentPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\DatePicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\DatePickerWithTime.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Dropdown.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\DropdownMultiple.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ImageCropper.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ImageMediaPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelBigint.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelBytes.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelDatetime.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelDecimal.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelInteger.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelPixels.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelString.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\LabelTime.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ListViewContent.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ListViewMedia.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\ListViewMembers.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\MarkdownBlockMarkdownMarkdownEditorPropertyEditorUI.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\MediaPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\MemberPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\MultipleImageMediaPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\MultipleMediaPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\MultiURLPicker.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Numeric.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Radiobox.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\RichtextEditor.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Tags.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Textarea.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Textstring.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\Truefalse.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\UploadArticle.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\UploadAudio.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\UploadFile.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\UploadVectorGraphics.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\DataTypes\UploadVideo.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Domains\en_en-gb.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Domains\se_sv.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Languages\en-gb.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Languages\en-us.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Languages\sv.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\file.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\folder.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\image.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\umbracomediaarticle.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\umbracomediaaudio.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\umbracomediavectorgraphics.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MediaTypes\umbracomediavideo.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Media\icon.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Media\image-1.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Media\image-2.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\MemberTypes\member.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\RelationTypes\umbMember.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\Templates\contentpage.config" />
+	  <_ContentIncludedByDefault Remove="uSync\v17\usync.config" />
 	</ItemGroup>
 
 	<PropertyGroup>
